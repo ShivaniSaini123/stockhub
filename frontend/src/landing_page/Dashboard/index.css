@@ -1,10 +1,12 @@
-body {
+
+  body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-size: 1rem;
   }
   
   code {
@@ -250,6 +252,7 @@ body {
   }
   
   .menu-container {
+    background: #000;
     flex-basis: 68%;
     height: 100%;
     padding: 10px 20px;
@@ -281,13 +284,13 @@ body {
   }
   
   .menu {
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 400;
-    color: rgb(70, 70, 70);
+    color: white;
   }
   
   .menu.selected {
-    color: rgb(245, 104, 52);
+    color: #96e856;
   }
   
   hr {
@@ -327,7 +330,7 @@ body {
   /* sudo selectors */
   
   .menu:hover {
-    color: rgb(245, 104, 52);
+    color: #96e856;
   }
   
   .profile:hover {
@@ -336,7 +339,7 @@ body {
   
   .profile:hover .username {
     cursor: pointer;
-    color: rgb(223, 91, 43);
+    color:  #96e856;
   }
   
   .orders {
@@ -567,6 +570,7 @@ body {
   }
   
   .topbar-container {
+    background-color: black;
     width: 100%;
     height: 10vh;
     display: flex;
@@ -594,6 +598,9 @@ body {
     justify-content: space-evenly;
     z-index: -2;
   }
+  .nifty .index{
+    color: white;
+  }
   
   .sensex {
     flex-basis: 40%;
@@ -608,23 +615,24 @@ body {
   }
   
   .index {
-    font-size: 0.8rem;
+    color:white;
+    font-size: 1rem;
     font-weight: 500;
     text-transform: uppercase;
-    color: rgb(97, 97, 97);
+    /* color: rgb(97, 97, 97); */
     white-space: nowrap;
   }
   
   .index-points {
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 500;
-    color: rgb(223, 73, 73);
+    color: white;
   }
   
   .percent {
     font-size: 0.8rem;
     font-weight: 400;
-    color: rgb(146, 146, 146);
+    color: black;
   }
   
   /* sudo selectors */

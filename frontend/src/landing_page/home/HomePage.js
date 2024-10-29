@@ -1,5 +1,5 @@
 import React from 'react'
-
+import './Homepage.css'
 import Posts from './Posts';
 
 import Chatbot from './Chatbot';

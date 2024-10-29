@@ -1,11 +1,9 @@
-
 import React from "react";
 import { Link } from 'react-router-dom';
 
 function Navbar() {
     const handleSearchSubmit = (e) => {
-        e.preventDefault(); // Prevent the default form submission
-        // Add your search logic here, for example, capturing the input value and performing a search
+        e.preventDefault();
         console.log("Search button clicked");
     };
 
@@ -13,8 +11,6 @@ function Navbar() {
         <nav
             className="navbar navbar-expand-lg border-bottom"
             style={{
-
-
                 backgroundColor: "#1e231c",
                 borderBottom: "10px solid gray",
                 height: "80px",
@@ -23,86 +19,75 @@ function Navbar() {
                 left: 0,
                 right: 0,
                 zIndex: 1000,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "0 20px"
             }}
         >
-            <div className="container">
-                <a className="navbar-brand" href="#">
-                    <img src="media/images/logo.png" style={{ width: "25%" }} alt="Logo" />
-                </a>
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="navbar-toggler-icon"></span>
+            {/* Left Section: Logo */}
+            <a className="navbar-brand" href="#">
+                <img src="media/images/logo.png" style={{ width: "50px" }} alt="Logo" />
+            </a>
+
+            {/* Center Section: Search Bar */}
+            <form className="d-flex align-items-center" onSubmit={handleSearchSubmit} style={{ gap: "0.5rem" }}>
+                <input
+                    className="form-control"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    style={{ width: "300px", backgroundColor: "white" }}
+                />
+                <button className="btn" type="submit" style={{ backgroundColor: '#96e856', color: 'black',height:'37.6px',justifyContent:'center' }}>
+                    Search
                 </button>
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <form className="d-flex ms-auto" style={{ gap: "1rem" }} onSubmit={handleSearchSubmit}>
-                        <input
-                            className="form-control"
-                            type="search"
-                            placeholder="Search"
-                            aria-label="Search"
-                            style={{ width: "300px" }} // Adjust the width as needed
-                        />
-                        <button className="btn" type="submit" style={{ backgroundColor: '#96e856', color: 'black' }}>
-                            Search
-                        </button>
-                    </form>
-                    <ul className="navbar-nav mb-lg-0" style={{ gap: "1rem" }}>
-                        <li className="nav-item">
-                            <a className="nav-link active text-white" aria-current="page" href="#">
-                                Chats
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            {/* <a className="nav-link active text-white" href="#">
-                                Dashboard
-                            </a> */}
-                                <Link className="nav-link active text-white" to="/dashboard">
-                              Dashboard
-                               </Link>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link active text-white" href="#">
-                                Orders
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link active text-white" href="#">
-                                Holdings
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link active text-white" href="#">
-                                News
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link active text-white" href="#">
-                                Funds
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link active text-white" href="#">
-                                About
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link active" href="#">
-                                <i className="fas fa-user fa-2x text-white "></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            </form>
+
+            <ul className="navbar-nav d-flex align-items-center" style={{ gap: "1rem", marginBottom: 0 }}>
+                <li className="nav-item">
+                    <Link className="nav-link active text-white" to="#">
+                        Chats
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link active text-white" to="/dashboard">
+                        Dashboard
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link active text-white" to="#">
+                        Orders
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link active text-white" to="#">
+                        Holdings
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link active text-white" to="#">
+                        News
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link active text-white" to="#">
+                        Funds
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link active text-white" to="#">
+                        About
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link active" to="#">
+                        <i className="fas fa-user fa-lg text-white"></i>
+                    </Link>
+                </li>
+            </ul>
         </nav>
     );
 }
 
 export default Navbar;
-
