@@ -1,9 +1,10 @@
 import React from "react";
+import './index.css';
 
 import Dashboard from "./Dashboard";
 import TopBar from "./TopBar";
 
-const Home = () => {
+const Main = () => {
   return (
     <>
       <TopBar />
@@ -12,4 +13,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Main;
