@@ -23,7 +23,6 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Funds from "./Funds";
 import Holdings from "./Holdings";
-
 import Orders from "./Orders";
 import Positions from "./Positions";
 import Summary from "./Summary";
@@ -38,12 +37,11 @@ const Dashboard = () => {
       </GeneralContextProvider>
       <div className="content">
         <Routes>
-          <Route exact path="/" element={<Summary />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/holdings" element={<Holdings />} />
-          <Route path="/positions" element={<Positions />} />
-          <Route path="/funds" element={<Funds />} />
-         
+          <Route index element={<Summary />} />  {/* This matches "/dashboard" */}
+          <Route path="orders" element={<Orders />} />  {/* Matches "/dashboard/orders" */}
+          <Route path="holdings" element={<Holdings />} />  {/* Matches "/dashboard/holdings" */}
+          <Route path="positions" element={<Positions />} />  {/* Matches "/dashboard/positions" */}
+          <Route path="funds" element={<Funds />} />  {/* Matches "/dashboard/funds" */}
         </Routes>
       </div>
     </div>
