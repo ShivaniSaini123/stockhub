@@ -1,12 +1,42 @@
-import React from 'react';
+import React, { useState } from "react";
+import axios from 'axios';
 
-function Chatbot() {
+const Chatbot = () => {
+    const [messages, setMessages] = useState([]);
+    const [input, setInput] = useState('');
+
+    const handleSend = async () => {
+        const userMessage = { text: input, sender: 'user' };
+
+        // Set messages with the user's message only once
+        setMessages((prev) => [...prev, userMessage]);
+
+        try {
+            const response = await axios.post('http://localhost:5000/chatbot', {
+                message: input,
+            });
+
+            const botResponse = response.data.reply;
+            const botMessage = { text: botResponse, sender: 'bot' };
+
+            // Add the bot's response message
+            setMessages((prev) => [...prev, botMessage]);
+        } catch (error) {
+            console.error("error fetching stock data:", error);
+            const errorMessage = { text: "There was an error retrieving stock information", sender: 'bot' };
+
+            // Add the error message from the bot if API call fails
+            setMessages((prev) => [...prev, errorMessage]);
+        }
+        setInput('');
+    };
+
     return (
         <div className="position-relative">
             {/* Chatbot Icon */}
             <div
-                className="position-fixed bottom-16 start-0 m-3" // Adjusted bottom value for spacing above the footer
-                style={{ cursor: 'pointer', zIndex: 1000 }} // Ensure it's above other elements
+                className="position-fixed bottom-16 start-0 m-3"
+                style={{ cursor: 'pointer', zIndex: 1000 }}
                 data-bs-toggle="modal"
                 data-bs-target="#chatbotModal"
             >
@@ -30,29 +60,32 @@ function Chatbot() {
                         <div className="modal-body">
                             <div className="card">
                                 <div className="card-body" style={{ height: '300px', overflowY: 'auto' }}>
-                                    {/* Sample messages for display */}
-                                    <div className="mb-2 text-start">
-                                        <span className="badge bg-secondary">Hello! How can I assist you today?</span>
-                                    </div>
-                                    <div className="mb-2 text-end">
-                                        <span className="badge bg-primary">I need help with my account.</span>
-                                    </div>
-                                    <div className="mb-2 text-start">
-                                        <span className="badge bg-secondary">Sure! What issue are you facing?</span>
-                                    </div>
-                                    <div className="mb-2 text-end">
-                                        <span className="badge bg-primary">I can't log in.</span>
+                                    <div className="messages">
+                                        {messages.map((msg, i) => (
+                                            <div
+                                                key={i}
+                                                className={`d-flex mb-2 ${msg.sender === 'user' ? 'justify-content-end' : 'justify-content-start'}`}
+                                            >
+                                                <div
+                                                    className={`badge ${msg.sender === 'user' ? 'bg-primary text-end' : 'bg-secondary text-start'}`}
+                                                    style={{ maxWidth: '80%', padding: '10px', borderRadius: '12px' }}
+                                                >
+                                                    {msg.text}
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
-                                <div className="card-footer">
-                                    <form className="d-flex">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Type your message..."
-                                        />
-                                        <button type="submit" className="btn btn-primary ms-2">Send</button>
-                                    </form>
+                                <div className="input-group mt-3">
+                                    <input
+                                        value={input}
+                                        onChange={(e) => setInput(e.target.value)}
+                                        placeholder="Ask about a stock"
+                                        className="form-control"
+                                    />
+                                    <button onClick={handleSend} className="btn btn-primary">
+                                        Send
+                                    </button>
                                 </div>
                             </div>
                         </div>

@@ -4,6 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const axios = require('axios');
 
 const { HoldingsModel } = require("./model/HoldingsModel");
 
@@ -17,7 +18,7 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
-
+const ALPHA_VANTAGE_API_KEY = process.env.ALPHA_VANTAGE_API_KEY;
 // app.get("/addHoldings", async (req, res) => {
 //   let tempHoldings = [
 //     {
@@ -209,6 +210,46 @@ app.post("/newOrder", async (req, res) => {
 
   res.send("Order saved!");
 });
+
+app.post('/chatbot', async (req, res) => {
+  const { message } = req.body;
+
+  if (!message) {
+    return res.status(400).json({ reply: "No message provided in the request body." });
+  }
+
+  const stockSymbol = message.split(" ").pop().toUpperCase();
+
+  try {
+    const response = await axios.get('https://www.alphavantage.co/query', {
+      params: {
+        function: 'TIME_SERIES_INTRADAY',
+        symbol: `${stockSymbol}`,
+        //symbol: 'IBM',
+        interval: '5min',
+        apikey: ALPHA_VANTAGE_API_KEY,
+      }
+    });
+
+    const data = response.data;
+    console.log("API Response:", data);
+
+    if (data["Time Series (5min)"]) {
+      const latestKey = Object.keys(data["Time Series (5min)"])[0];
+      const latestData = data["Time Series (5min)"][latestKey];
+      const reply = `The latest price for ${stockSymbol} is ₹${latestData["1. open"]}.`;
+      res.json({ reply });
+    } else if (data["Note"]) {
+      res.json({ reply: "API call limit reached. Please try again later." });
+    } else {
+      res.json({ reply: "I'm sorry, I couldn't find that stock symbol." });
+    }
+  } catch (error) {
+    console.error("Error fetching stock data:", error);
+    res.json({ reply: "There was an error fetching the stock data. Please check the stock symbol or try again later." });
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log("App started!");
