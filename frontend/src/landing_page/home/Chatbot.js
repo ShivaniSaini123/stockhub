@@ -12,7 +12,7 @@ const Chatbot = () => {
         setMessages((prev) => [...prev, userMessage]);
 
         try {
-            const response = await axios.post('http://localhost:5000/chatbot', {
+            const response = await axios.post('http://localhost:3002/chatbot', {
                 message: input,
             });
 
@@ -40,7 +40,7 @@ const Chatbot = () => {
                 data-bs-toggle="modal"
                 data-bs-target="#chatbotModal"
             >
-                <i className="fa fa-comments fa-3x" aria-hidden="true"></i>
+                <i className="fa fa-comments fa-3x " aria-hidden="true"></i>
             </div>
 
             {/* Modal */}
@@ -67,7 +67,7 @@ const Chatbot = () => {
                                                 className={`d-flex mb-2 ${msg.sender === 'user' ? 'justify-content-end' : 'justify-content-start'}`}
                                             >
                                                 <div
-                                                    className={`badge ${msg.sender === 'user' ? 'bg-primary text-end' : 'bg-secondary text-start'}`}
+                                                    className={`badge ${msg.sender === 'user' ? 'bg-danger text-end' : 'bg-success text-start'}`}
                                                     style={{ maxWidth: '80%', padding: '10px', borderRadius: '12px' }}
                                                 >
                                                     {msg.text}
@@ -83,7 +83,7 @@ const Chatbot = () => {
                                         placeholder="Ask about a stock"
                                         className="form-control"
                                     />
-                                    <button onClick={handleSend} className="btn btn-primary">
+                                    <button className="btn btn-success" onClick={handleSend} className="btn btn-success">
                                         Send
                                     </button>
                                 </div>

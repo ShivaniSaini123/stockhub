@@ -255,4 +255,5 @@ app.listen(PORT, () => {
   console.log("App started!");
   mongoose.connect(uri);
   console.log("DB started!");
+  console.log(`started on port ${PORT}`)
 });
