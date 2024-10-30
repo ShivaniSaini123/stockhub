@@ -1,0 +1,374 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+  padding: 0;
+}
+
+.profile-page {
+    margin-top: 75px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto;
+    background-color:#d3cfcf;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+    background-color: antiquewhite;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-picture {
+    flex: 0 0 100px; 
+    height: 100px; 
+    border-radius: 50%; 
+    overflow: hidden; 
+    margin-right: 20px; 
+  }
+  .profile-picture img {
+    width: 100%;
+    height: auto; 
+  }
+  
+  .profile-info h2 {
+    font-size: 24px; 
+    margin: 0; 
+  }
+  
+.profile-info h2 {
+    margin-bottom: 5px;
+}
+.profile-info p {
+    margin: 5px 0; 
+    color: #555; 
+  }
+
+  .tabs {
+    display: flex; 
+    justify-content: space-between; 
+    margin: 20px 0; 
+}
+
+.tabs button {
+    flex: 1; 
+    padding: 10px; 
+    border: 1px solid #007bff; 
+    border-radius: 5px; 
+    background-color: #f9f9f9;
+    color: #007bff; 
+    font-size: 16px; 
+    cursor: pointer; 
+    transition: background-color 0.3s, color 0.3s; 
+    margin-right: 10px; 
+}
+.tabs button.followers,
+.tabs button.chat {
+    width: 100vw; 
+}
+.tabs button:last-child {
+    margin-right: 0; 
+}
+
+.tabs button:hover {
+    background-color: #e0e0e0; 
+}
+
+.tabs button.active {
+    background-color: #007bff; 
+    color: white; 
+    font-weight: bold; 
+    border-color: #0056b3; 
+}
+.tabs button:not(.followers):not(.chat) {
+    flex: 1; 
+}
+.documents-section {
+    margin-bottom: 20px;
+}
+
+.follow-section {
+    margin: 20px 0; 
+    padding: 15px; 
+    border: 1px solid #e0e0e0;
+    border-radius: 8px; 
+    background-color: #f9f9f9; 
+}
+
+.follow-section h3 {
+    margin-bottom: 15px; 
+    font-size: 24px; 
+    color: #333; 
+}
+
+.add-follower {
+    display: flex; 
+    margin-bottom: 15px; 
+}
+
+.add-follower input {
+    flex: 1; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    font-size: 16px; 
+    margin-right: 10px; 
+}
+
+.add-follower button {
+    background-color: #007bff; 
+    color: white; 
+    border: none; 
+    padding: 10px 15px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+}
+
+.add-follower button:hover {
+    background-color: #0056b3; 
+}
+
+.follower-list {
+    margin-top: 15px; 
+}
+
+.follower-list h4 {
+    margin-bottom: 10px; 
+    font-size: 20px; 
+    color: #555; 
+}
+
+.follower-list ul {
+    list-style-type: none; 
+    padding: 0; 
+}
+
+.follower-list li {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 8px 0; 
+    border-bottom: 1px solid #e0e0e0; 
+}
+
+.follower-list li:last-child {
+    border-bottom: none; 
+}
+
+.follower-list button {
+    background-color: #dc3545; 
+    color: white; 
+    border: none; 
+    padding: 5px 10px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 14px; 
+}
+
+.follower-list button:hover {
+    background-color: #c82333; 
+}
+
+.about-section {
+    margin-top: 20px; 
+    padding: 20px;
+    border: 1px solid #e0e0e0; 
+    border-radius: 8px; 
+    background-color: #f9f9f9; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.about-section h3 {
+    margin-bottom: 15px; 
+    font-size: 24px; 
+    color: #333; 
+}
+
+.about-textarea {
+    width: 100%; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    resize: none; 
+    font-size: 16px; 
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); 
+}
+
+.about-textarea:focus {
+    border-color: #007bff; 
+    outline: none; 
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+}
+
+.btn {
+    margin-top: 10px; 
+    background-color: #007bff; 
+    color: white; 
+    padding: 10px 15px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+}
+
+.btn:hover {
+    background-color: #0056b3; 
+}
+
+.submitted-messages {
+    margin-top: 20px; 
+}
+
+.submitted-messages h4 {
+    margin-bottom: 10px; 
+    font-size: 20px; 
+    color: #333; 
+}
+
+.messages {
+    margin-top: 10px; 
+    border-top: 1px solid #ccc; 
+    padding-top: 10px; 
+}
+
+.message {
+    margin: 5px 0; 
+    padding: 8px; 
+    border: 1px solid #e7e7e7; 
+    border-radius: 5px; 
+    background-color: #fff; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
+}
+
+.chat-section {
+    margin: 20px 0; 
+    padding: 15px; 
+    border: 1px solid #e0e0e0; 
+    border-radius: 8px; 
+    background-color: #f9f9f9; 
+}
+
+.chat-section h3 {
+    margin-bottom: 15px; 
+    font-size: 24px; 
+    color: #333; 
+}
+
+.chat-messages {
+    max-height: 300px; 
+    overflow-y: auto;
+    margin-bottom: 15px;
+    padding: 10px; 
+    border: 1px solid #e0e0e0; 
+    border-radius: 5px; 
+    background-color: #fff; 
+}
+
+.message {
+    margin: 5px 0; 
+    padding: 8px; 
+    border-radius: 5px; 
+    background-color: #f1f1f1; 
+    color: #333; 
+}
+
+.chat-input {
+    display: flex; 
+}
+
+.chat-input input {
+    flex: 1; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    margin-right: 10px; 
+}
+.chat-input button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.chat-input button:hover {
+    background-color: #0056b3;
+}
+
+.interests, .contact-info {
+    margin-top: 20px;
+}
+
+.interests h4, .contact-info h4 {
+    margin-bottom: 10px;
+}
+
+.interests {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.interests h4 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.interests p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+.contact-info {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contact-info h4 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.contact-info p {
+    font-size: 1em;
+    color: #555;
+    margin: 5px 0;
+}
+
+.contact-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}

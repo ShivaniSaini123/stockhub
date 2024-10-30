@@ -9,6 +9,7 @@ import Holdings from './landing_page/Dashboard/Holdings';
 import Positions from './landing_page/Dashboard/Positions';
 import Orders from './landing_page/Dashboard/Orders';
 import WatchList from './landing_page/Dashboard/WatchList';
+import ProfilePage from './landing_page/profile/profile';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -16,6 +17,7 @@ root.render(
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/dashboard/*" element={<Main/>} />
+        <Route path="profile" element={<ProfilePage/>}/>
         {/* <Route path="/holdings" element={
   <>
     <Holdings />

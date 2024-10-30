@@ -81,7 +81,7 @@ function Navbar() {
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link active" to="#">
+                    <Link className="nav-link active" to="profile">
                         <i className="fas fa-user fa-lg text-white"></i>
                     </Link>
                 </li>
