@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios, { all } from "axios";
+import axios from "axios";
 import { VerticalGraph } from "./VerticalGraph";
-
-// import { holdings } from "../data/data";
 
 const Holdings = () => {
   const [allHoldings, setAllHoldings] = useState([]);
@@ -14,7 +12,6 @@ const Holdings = () => {
     });
   }, []);
 
-  // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   const labels = allHoldings.map((subArray) => subArray["name"]);
 
   const data = {
@@ -23,86 +20,87 @@ const Holdings = () => {
       {
         label: "Stock Price",
         data: allHoldings.map((stock) => stock.price),
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)", // You can adjust this if needed
       },
     ],
   };
 
-  // export const data = {
-  //   labels,
-  //   datasets: [
-  // {
-  //   label: 'Dataset 1',
-  //   data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-  //   backgroundColor: 'rgba(255, 99, 132, 0.5)',
-  // },
-  //     {
-  //       label: 'Dataset 2',
-  //       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-  //       backgroundColor: 'rgba(53, 162, 235, 0.5)',
-  //     },
-  //   ],
-  // };
+  // Helper function to convert percentage string to a number
+  const parsePercentage = (percentStr) => {
+    if (typeof percentStr === "string") {
+      const parsed = parseFloat(percentStr.replace('%', '').trim());
+      return isNaN(parsed) ? 0 : parsed; // Return 0 if parsing fails
+    }
+    return percentStr; // Return as is if already a number
+  };
 
   return (
     <>
-      <h3 className="title">Holdings ({allHoldings.length})</h3>
+      <h3 style={{ fontFamily: 'Roboto, sans-serif', color: "black", margin: '20px 0', fontWeight: '600' }}>
+        Holdings ({allHoldings.length})
+      </h3>
 
-      <div className="order-table">
-        <table>
-          <tr>
-            <th>Instrument</th>
-            <th>Qty.</th>
-            <th>Avg. cost</th>
-            <th>LTP</th>
-            <th>Cur. val</th>
-            <th>P&L</th>
-            <th>Net chg.</th>
-            <th>Day chg.</th>
-          </tr>
+      <div style={{ backgroundColor: '#1a1a1a', padding: '20px', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25)', marginBottom: '20px' }}>
+        <table style={{ width: '100%', color: '#e0e0e0', borderCollapse: 'collapse', fontFamily: 'Roboto, sans-serif' }}>
+          <thead>
+            <tr style={{ backgroundColor: '#333', color: '#e0e0e0' }}>
+              <th style={{ fontWeight: '500' }}>Ticker</th>
+              <th style={{ fontWeight: '500' }}>Shares</th>
+              <th style={{ fontWeight: '500' }}>Avg. Cost Price</th>
+              <th style={{ fontWeight: '500' }}>Last Trade Price</th>
+              <th style={{ fontWeight: '500' }}>Cur. Val</th>
+              <th style={{ fontWeight: '500' }}>P&L</th>
+              <th style={{ fontWeight: '500' }}>Net Chg.</th>
+              <th style={{ fontWeight: '500' }}>Day Chg.</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allHoldings.map((stock, index) => {
+              const curValue = stock.price * stock.qty;
+              const pnlValue = curValue - stock.avg * stock.qty; // Calculate P&L value
 
-          {allHoldings.map((stock, index) => {
-            const curValue = stock.price * stock.qty;
-            const isProfit = curValue - stock.avg * stock.qty >= 0.0;
-            const profClass = isProfit ? "profit" : "loss";
-            const dayClass = stock.isLoss ? "loss" : "profit";
+              // Convert percentage strings to numbers
+              const netChange = parsePercentage(stock.net);
+              const dayChange = parsePercentage(stock.day);
 
-            return (
-              <tr key={index}>
-                <td>{stock.name}</td>
-                <td>{stock.qty}</td>
-                <td>{stock.avg.toFixed(2)}</td>
-                <td>{stock.price.toFixed(2)}</td>
-                <td>{curValue.toFixed(2)}</td>
-                <td className={profClass}>
-                  {(curValue - stock.avg * stock.qty).toFixed(2)}
-                </td>
-                <td className={profClass}>{stock.net}</td>
-                <td className={dayClass}>{stock.day}</td>
-              </tr>
-            );
-          })}
+              return (
+                <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#2a2a2a' : '#1a1a1a' }}>
+                  <td>{stock.name}</td>
+                  <td>{stock.qty}</td>
+                  <td>{stock.avg.toFixed(2)}</td>
+                  <td>{stock.price.toFixed(2)}</td>
+                  <td>{curValue.toFixed(2)}</td>
+                  <td style={{ color: pnlValue < 0 ? '#ff3d00' : '#00e676', fontWeight: '500' }}>
+                    {pnlValue.toFixed(2)}
+                  </td>
+                  <td style={{ color: netChange < 0 ? '#ff3d00' : '#00e676', fontWeight: '500' }}>
+                    {netChange.toFixed(2)}% {/* Display percentage */}
+                  </td>
+                  <td style={{ color: dayChange < 0 ? '#ff3d00' : '#00e676', fontWeight: '500' }}>
+                    {dayChange.toFixed(2)}% {/* Display percentage */}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
 
-      <div className="row">
-        <div className="col">
-          <h5>
-            29,875.<span>55</span>{" "}
-          </h5>
-          <p>Total investment</p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+        <div style={{ background: 'rgba(255, 255, 255, 0.05)', padding: '15px', borderRadius: '8px', flex: '1', margin: '0 10px' }}>
+          <h5 style={{ color: "black", fontFamily: 'Roboto, sans-serif', fontWeight: '500' }}>Total Investment</h5>
+          <p style={{ color: "grey", fontSize: '1.5rem', fontWeight: '600' }}>29,875.<span>55</span></p>
         </div>
-        <div className="col">
-          <h5>
-            31,428.<span>95</span>{" "}
-          </h5>
-          <p>Current value</p>
+        <div style={{ background: 'rgba(255, 255, 255, 0.05)', padding: '15px', borderRadius: '8px', flex: '1', margin: '0 10px' }}>
+          <h5 style={{ color: "black", fontFamily: 'Roboto, sans-serif', fontWeight: '500' }}>Current Value</h5>
+          <p style={{ color: "grey", fontSize: '1.5rem', fontWeight: '600' }}>31,428.<span>95</span></p>
         </div>
-        <div className="col">
-          <h5>1,553.40 (+5.20%)</h5>
-          <p>P&L</p>
+        <div style={{ background: 'rgba(255, 255, 255, 0.05)', padding: '15px', borderRadius: '8px', flex: '1', margin: '0 10px' }}>
+          <h5 style={{ color: "black", fontFamily: 'Roboto, sans-serif', fontWeight: '500' }}>P&L</h5>
+          <p style={{ color: "grey", fontSize: '1.5rem', fontWeight: '600' }}>1,553.40 (+5.20%)</p>
         </div>
       </div>
+
       <VerticalGraph data={data} />
     </>
   );
