@@ -51,7 +51,7 @@ const Menu = () => {
               onClick={() => handleMenuClick(2)}
             >
               <p className={selectedMenu === 2 ? activeMenuClass : menuClass}>
-                Holdings
+                Assets
               </p>
             </Link>
           </li>
@@ -62,7 +62,7 @@ const Menu = () => {
               onClick={() => handleMenuClick(3)}
             >
               <p className={selectedMenu === 3 ? activeMenuClass : menuClass}>
-                Positions
+                Stakes
               </p>
             </Link>
           </li>
@@ -77,7 +77,7 @@ const Menu = () => {
               </p>
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link
               style={{ textDecoration: "none" }}
               to="/dashboard/apps"
@@ -87,7 +87,7 @@ const Menu = () => {
                 Apps
               </p>
             </Link>
-          </li>
+          </li> */}
         </ul>
         <hr />
         <div className="profile" onClick={handleProfileClick}>

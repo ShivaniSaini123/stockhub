@@ -55,26 +55,14 @@ function Navbar() {
                         Dashboard
                     </Link>
                 </li>
-                <li className="nav-item">
-                    <Link className="nav-link active text-white" to="#">
-                        Orders
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link active text-white" to="#">
-                        Holdings
-                    </Link>
-                </li>
+             
+             
                 <li className="nav-item">
                     <Link className="nav-link active text-white" to="#">
                         News
                     </Link>
                 </li>
-                <li className="nav-item">
-                    <Link className="nav-link active text-white" to="#">
-                        Funds
-                    </Link>
-                </li>
+               
                 <li className="nav-item">
                     <Link className="nav-link active text-white" to="#">
                         About
