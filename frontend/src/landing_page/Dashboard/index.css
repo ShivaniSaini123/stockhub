@@ -596,7 +596,8 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    z-index: -2;
+   
+    color:white;
   }
   .nifty .index{
     color: white;
@@ -640,88 +641,137 @@
     cursor: pointer;
   }
   
-  .watchlist-container {
+  /* Main watchlist container */
+.watchlist-container {
     flex-basis: 32%;
     height: 100%;
     box-sizing: border-box;
-    box-shadow: 0px 0px 4px 1px rgb(236, 235, 235);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     overflow-y: auto;
     position: relative;
-  }
-  
-  .search-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    position: relative;
-  }
-  
-  .search {
-    width: 100%;
-    height: 6%;
-    border: none;
-    padding: 15px 20px;
-    font-size: 0.9rem;
-    font-weight: 400;
-    color: rgb(241, 241, 241);
-    border-bottom: 0.8px solid rgb(235, 234, 234);
-  }
-  
-  .counts {
-    position: absolute;
-    right: 20px;
-    font-size: 0.9rem;
-    font-weight: 400;
-    color: rgb(177, 177, 177);
-  }
-  
-  .list {
-    list-style-type: none;
-    padding-bottom: 12%;
-  }
-  
-  .list li {
-    border-bottom: 0.8px solid rgb(235, 234, 234);
-    padding: 12px 10px 12px 14px;
-    position: relative;
-  }
-  
-  .item {
+    background-color: #ffffff; /* White background for the container */
+    color: #333333; /* Dark gray text for readability */
+}
+
+/* Search container styles */
+.search-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-weight: 300;
-    font-size: 0.8rem;
     position: relative;
-  }
-  
-  .item-info {
+    margin-bottom: 20px; /* Spacing below the search bar */
+}
+
+/* Search bar styles */
+.search {
+    width: 100%;
+    height: 50px; /* Increased height for better usability */
+    padding: 10px 15px;
+    font-size: 1rem; /* Increased font size for readability */
+    font-weight: 400;
+    color: #333; /* Dark gray text color */
+    background-color: #f7f7f7; /* Light gray for input */
+    border: 1px solid #ccc; /* Subtle border */
+    border-radius: 25px; /* Rounded corners for a modern look */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.search::placeholder {
+    color: #aaa; /* Light gray for placeholder text */
+}
+
+.search:focus {
+    outline: none;
+    border-color: #4caf50; /* Green border on focus */
+    background-color: #ffffff; /* White background on focus */
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.5); /* Glowing green effect on focus */
+}
+
+/* Counts styles */
+.counts {
+    font-size: 1rem; /* Font size for counts */
+    font-weight: 500; /* Slightly bolder for emphasis */
+    color: #666; /* Medium gray for counts */
+    margin-left: 10px; /* Space between search bar and counts */
+}
+
+/* List styles */
+.list {
+    list-style-type: none;
+    padding-bottom: 12%;
+}
+
+.list li {
+    border-bottom: 1px solid rgba(200, 200, 200, 0.5); /* Subtle divider */
+    padding: 12px 10px 12px 14px;
+    position: relative;
+    background-color: #ffffff; /* White for list items */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition on hover */
+}
+
+.list li:hover {
+    background-color: #f9f9f9; /* Slightly lighter on hover */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Subtle glow effect on hover */
+}
+
+.item {
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
-  }
-  
-  .item-info > * {
-    margin-right: 8px;
-  }
-  
-  .item-info span:nth-child(1) {
-    color: rgb(141, 141, 141);
-    flex: 1;
-  }
-  
-  .item-info span:nth-child(2) {
-    color: rgb(223, 73, 73);
-    margin-right: 12px;
-    flex: 2;
-  }
-  
-  .item-info span:nth-child(3) {
-    color: rgb(223, 73, 73);
-    flex: 1;
-  }
-  
-  .actions {
+    justify-content: space-between;
+    font-weight: 400;
+    font-size: 0.9rem; /* Adjusted font size for better readability */
+}
+
+.item-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1; /* Make item info flexible */
+}
+
+/* Percentage visibility with clear colors */
+.item-info span {
+    color: #333; /* Dark gray for item info text */
+}
+
+.item-info span:nth-child(2) {
+    color: #ff5252; /* Softer red for negative stocks */
+}
+
+.item-info span:nth-child(3) {
+    color: #4caf50; /* Bright green for positive stocks */
+}
+
+/* Tab styles */
+.tabs {
+    display: flex;
+    border-bottom: 2px solid #e0e0e0; /* Bottom border for tabs */
+    margin-bottom: 15px; /* Space below tabs */
+}
+
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #666; /* Medium gray for inactive tabs */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+    border-radius: 25px 25px 0 0; /* Rounded corners */
+}
+
+.tab.active {
+    background-color: #ffffff; /* White background for active tab */
+    color: #4caf50; /* Green text for active tab */
+    box-shadow: 0 2px 5px rgba(76, 175, 80, 0.2); /* Glow effect for active tab */
+}
+
+.tab:hover {
+    background-color: #f1f1f1; /* Slightly darker on hover */
+}
+
+/* Action buttons styles */
+.actions {
     position: absolute;
     top: 0;
     left: 0;
@@ -730,122 +780,132 @@
     align-items: center;
     justify-content: flex-end;
     display: none;
-  }
-  
-  .actions span button {
+}
+
+.list li:hover > .actions {
+    display: flex; /* Show actions on hover */
+}
+
+.actions span button {
     width: 40px;
     height: 30px;
     border-radius: 4px;
     text-align: center;
     margin-right: 8px;
+    border: none;
     cursor: pointer;
-  }
-  
-  .buy {
-    background-color: #4184f3;
-    color: #fff;
-    font-weight: 400;
-    font-size: 0.8rem;
-    border: 0.7px solid #4184f3;
-  }
-  
-  .sell {
-    background-color: #ff5722;
-    color: #fff;
-    font-weight: 400;
-    font-size: 0.8rem;
-    border: 0.7px solid #ff5722;
-  }
-  
-  .action {
-    background-color: #fff;
-    border: 0.7px solid #9b9b9b;
-  }
-  
-  .icon {
-    transform: scale(0.7);
-    color: rgb(65, 65, 65);
-  }
-  
-  .watchlist-number {
-    height: 6%;
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
+}
+
+.buy {
+    background-color: #4caf50; /* Green for buy */
+    color: #ffffff; /* White text */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Glowing effect */
+}
+
+.sell {
+    background-color: #ff5252; /* Softer red for sell */
+    color: #ffffff; /* White text */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 5px rgba(255, 82, 82, 0.5); /* Glowing effect */
+}
+
+/* Button hover effects */
+.buy:hover {
+    background-color: #45a049; /* Darker green on hover */
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.7); /* Stronger glow on hover */
+}
+
+.sell:hover {
+    background-color: #e53935; /* Darker red on hover */
+    box-shadow: 0 0 8px rgba(255, 82, 82, 0.7); /* Stronger glow on hover */
+}
+
+/* Watchlist number styles */
+.watchlist-number {
+    height: 40px; /* Increased height for visibility */
     width: 32%;
     box-sizing: border-box;
     position: fixed;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: space-between;
     bottom: 1px;
-    padding: 20px 20px 20px 0;
+    padding: 10px;
     left: 0;
-    border: 1px solid rgb(231, 231, 231);
+    border: 1px solid rgba(200, 200, 200, 0.5);
     z-index: 5;
-    background: #fff;
-  }
-  
-  .watchlist-number ul {
+    background: #f9f9f9; /* Light background for consistency */
+}
+
+.watchlist-number ul {
     list-style-type: none;
-  }
-  
-  .watchlist-number ul li {
+}
+
+.watchlist-number ul li {
     display: inline-block;
     padding: 10px 20px;
-    border-right: 1px solid rgb(231, 231, 231);
-  }
-  
-  .watchlist-number ul li:nth-child(1) {
-    color: rgb(223, 73, 73);
-  }
-  
-  .down {
-    color: rgb(223, 73, 73);
-  }
-  
-  .up {
-    color: rgb(103, 201, 136);
-  }
-  
-  .settings {
+    border-right: 1px solid rgba(200, 200, 200, 0.5);
+}
+
+.watchlist-number ul li:nth-child(1) {
+    color: #ff5252; /* Softer red for the first item */
+}
+
+.watchlist-number ul li:hover {
+    color: #ff7043; /* Hover color */
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.1); /* Subtle hover background */
+}
+
+/* Settings icon styles */
+.settings {
     transform: scale(0.8);
-    color: rgb(105, 105, 105);
-  }
-  
-  /* sudo selectors */
-  .search:focus {
-    outline: none;
-  }
-  
-  .list li:hover {
-    cursor: move;
-    background-color: #f3f3f3;
-  }
-  
-  .list li:hover > .actions {
-    display: flex;
-    cursor: move;
-  }
-  
-  /* TODO */
-  .list li::before {
-    content: "";
-    background: transparent;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-  
-  .watchlist-number ul li:hover {
-    color: rgb(245, 104, 52);
+    color: #b0b0b0; /* Lighter grey */
+}
+
+/* Additional hover styles */
+.settings:hover {
     cursor: pointer;
-    background: rgb(243, 243, 243);
-  }
-  
-  .settings:hover {
-    cursor: pointer;
-  }
-  
-  .action:hover {
-    background-color: rgb(212, 212, 212);
-  }
+}
+
+/* General adjustments for better UX */
+.item-info span {
+    flex: 1; /* Ensure equal spacing in item info */
+}
+/* Arrow button styles */
+.arrow-button {
+    background-color: transparent; /* Transparent background */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
+    outline: none; /* Remove outline on focus */
+}
+
+/* Style for down arrow */
+.arrow-button.down {
+    color: #ff5252; /* Softer red for down arrow */
+}
+
+/* Style for up arrow */
+.arrow-button.up {
+    color: #4caf50; /* Bright green for up arrow */
+}
+
+/* Hover effects for arrow buttons */
+.arrow-button:hover {
+    transform: scale(1.2); /* Slightly increase size on hover */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+}
+
+/* Specific hover effects for down and up arrows */
+.arrow-button.down:hover {
+    color: #e53935; /* Darker red on hover */
+    box-shadow: 0 0 8px rgba(255, 82, 82, 0.7); /* Stronger glow on hover */
+}
+
+.arrow-button.up:hover {
+    color: #388e3c; /* Darker green on hover */
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.7); /* Stronger glow on hover */
+}
