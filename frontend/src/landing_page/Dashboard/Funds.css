@@ -1,75 +1,68 @@
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-size: 1rem;
-  }
-  
-  .container {
-    background-color: black; /* Black background for the entire container */
-    color: white; /* Change text color to white for contrast */
-    padding: 20px; /* Add some padding */
-  }
-  
-  .funds {
-    width: 100%;
-    text-align: right;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-  }
-  
-  .btn {
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 2px;
-    color: #fff; /* Button text color */
-    margin: 0 2px;
-  }
-  
-  .btn-green {
-    background: #96e856; /* Changed button color to #96e856 */
-  }
-  
-  .btn-blue {
-    background: #4184f3; /* This can remain unchanged */
-  }
-  
-  .row {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    margin-top: 5%;
-  }
-  
-  .col {
-    flex-basis: 48%;
-    text-align: left;
-  }
-  
-  .table {
-    border: 1px solid #ddd;
-    padding: 5% 8%;
-  }
-  
-  .table .data {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .table .data > * {
-    margin-bottom: 5%;
-  }
-  
-  .table hr {
-    border: none;
-    background: #d1d1d1;
-    height: 0.5px;
-    margin-bottom: 5%;
-  }
-  
-  /* Add more styles as needed */
-  
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1rem;
+}
+
+.funds {
+  width: 100%;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.btn {
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 2px;
+  color: #fff;
+  margin: 0 2px;
+}
+
+.btn-green {
+  background: #4caf50;
+}
+
+.btn-blue {
+  background: #4184f3;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 5%;
+}
+
+.col {
+  flex-basis: 48%;
+  text-align: left;
+}
+
+.table {
+  border: 1px solid #ddd;
+  padding: 5% 8%;
+}
+
+.table .data {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.table .data > * {
+  margin-bottom: 5%;
+}
+
+.table hr {
+  border: none;
+  background: #d1d1d1;
+  height: 0.5px;
+  margin-bottom: 5%;
+}
+
+/* Add more styles as needed */

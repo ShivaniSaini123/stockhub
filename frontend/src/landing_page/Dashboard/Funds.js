@@ -1,83 +1,39 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import './Funds.css'; // Assuming you're using a separate CSS file
 
 const Funds = () => {
   return (
     <>
       <div className="funds">
-        <p>Instant, zero-cost fund transfers with UPI </p>
-        <Link className="btn btn-green">Add funds</Link>
-        <Link className="btn btn-blue">Withdraw</Link>
-      </div>
-
-      <div className="row">
-        <div className="col">
-          <span>
-            <p>Equity</p>
-          </span>
-
-          <div className="table">
-            <div className="data">
-              <p>Available margin</p>
-              <p className="imp colored">4,043.10</p>
+        <div className="dashboard-container">
+          <div className="content">
+            {/* Content goes here */}
+            <h1 className="title">Funds Overview</h1>
+            <div className="row">
+              <div className="col">
+                <span>
+                  <p>Your Funds</p>
+                </span>
+                <Link to="/add-fund" className="btn btn-green">Add Fund</Link>
+                <Link to="/withdraw-fund" className="btn btn-blue">Withdraw Fund</Link>
+              </div>
+              <div className="col">
+                {/* Add more fund-related info here */}
+              </div>
             </div>
-            <div className="data">
-              <p>Used margin</p>
-              <p className="imp">3,757.30</p>
+            <div className="table">
+              <div className="data">
+                <p>Fund Name</p>
+                <p>Amount</p>
+              </div>
+              <hr />
+              {/* Repeat for each fund */}
+              <div className="data">
+                <p>Sample Fund</p>
+                <p>$1,000</p>
+              </div>
             </div>
-            <div className="data">
-              <p>Available cash</p>
-              <p className="imp">4,043.10</p>
-            </div>
-            <hr />
-            <div className="data">
-              <p>Opening Balance</p>
-              <p>4,043.10</p>
-            </div>
-            <div className="data">
-              <p>Opening Balance</p>
-              <p>3736.40</p>
-            </div>
-            <div className="data">
-              <p>Payin</p>
-              <p>4064.00</p>
-            </div>
-            <div className="data">
-              <p>SPAN</p>
-              <p>0.00</p>
-            </div>
-            <div className="data">
-              <p>Delivery margin</p>
-              <p>0.00</p>
-            </div>
-            <div className="data">
-              <p>Exposure</p>
-              <p>0.00</p>
-            </div>
-            <div className="data">
-              <p>Options premium</p>
-              <p>0.00</p>
-            </div>
-            <hr />
-            <div className="data">
-              <p>Collateral (Liquid funds)</p>
-              <p>0.00</p>
-            </div>
-            <div className="data">
-              <p>Collateral (Equity)</p>
-              <p>0.00</p>
-            </div>
-            <div className="data">
-              <p>Total Collateral</p>
-              <p>0.00</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="col">
-          <div className="commodity">
-            <p>You don't have a commodity account</p>
-            <Link className="btn btn-blue">Open Account</Link>
           </div>
         </div>
       </div>

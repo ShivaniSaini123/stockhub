@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { VerticalGraph } from "./VerticalGraph";
+import { DoughnutChart } from "./VerticalGraph";
 
 const Holdings = () => {
   const [allHoldings, setAllHoldings] = useState([]);
@@ -101,7 +101,7 @@ const Holdings = () => {
         </div>
       </div>
 
-      <VerticalGraph data={data} />
+      <DoughnutChart data={data} />
     </>
   );
 };
