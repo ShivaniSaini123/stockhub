@@ -72,12 +72,13 @@ function Navbar() {
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link active text-white" to="#">
-                        Funds
+                        {/* Funds */}
+                        About
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link active text-white" to="#">
-                        About
+                    <Link className="nav-link active text-white" to="/auth">
+                        Login
                     </Link>
                 </li>
                 <li className="nav-item">

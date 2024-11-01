@@ -10,7 +10,7 @@ const { HoldingsModel } = require("./model/HoldingsModel");
 
 const { PositionsModel } = require("./model/PositionsModel");
 const { OrdersModel } = require("./model/OrdersModel");
-
+const userRoutes = require("./routes/user.routes.js");
 const PORT = process.env.PORT || 3003;
 const uri = process.env.MONGO_URL;
 
@@ -187,6 +187,24 @@ const ALPHA_VANTAGE_API_KEY = process.env.ALPHA_VANTAGE_API_KEY;
 //   });
 //   res.send("Done!");
 // });
+
+
+
+mongoose.connection.on("connected", () => {
+  console.log("Connected to MongoDB");
+});
+
+mongoose.connection.on("error", (err) => {
+  console.error("MongoDB connection error:", err);
+});
+
+mongoose.connection.on("disconnected", () => {
+  console.log("Disconnected from MongoDB");
+});
+
+app.use("/api/v1/users", userRoutes);
+
+
 
 app.get("/allHoldings", async (req, res) => {
   let allHoldings = await HoldingsModel.find({});
