@@ -1,4 +1,5 @@
 require("dotenv").config();
+const multer = require("multer");
 
 const express = require("express");
 const mongoose = require("mongoose");
@@ -11,12 +12,16 @@ const { HoldingsModel } = require("./model/HoldingsModel");
 const { PositionsModel } = require("./model/PositionsModel");
 const { OrdersModel } = require("./model/OrdersModel");
 const userRoutes = require("./routes/user.routes.js");
+const postRoutes = require('./routes/PostRoutes.js');
 const PORT = process.env.PORT || 3003;
 const uri = process.env.MONGO_URL;
 
 const app = express();
 
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/uploads", express.static("uploads")); // Serve uploaded files
 app.use(bodyParser.json());
 const ALPHA_VANTAGE_API_KEY = process.env.ALPHA_VANTAGE_API_KEY;
 // app.get("/addHoldings", async (req, res) => {
@@ -204,7 +209,7 @@ mongoose.connection.on("disconnected", () => {
 
 app.use("/api/v1/users", userRoutes);
 
-
+app.use("/api/posts", postRoutes);
 
 app.get("/allHoldings", async (req, res) => {
   let allHoldings = await HoldingsModel.find({});
