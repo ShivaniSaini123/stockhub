@@ -6,9 +6,10 @@ function Hero() {
     <div className="container-fluid">
       <div className="row hero-row">
         <div className="hero-content">
-          <h1 className="hero-title">
-          Driven by passion and innovation, our team is dedicated to creating solutions that empower and inspire, breaking boundaries to build a better future—one idea at a time
-          </h1>
+          <h1 className="title">About EquiNex</h1>
+          <h2 className="hero-title">
+          Equinex is your go-to platform for buying and selling stocks. We make investing accessible with real-time trading, community features for chatting and calling fellow investors, and the latest market news and insights. Whether you're a seasoned trader or a beginner, Equinex equips you with the tools to make informed investment decisions and connect with others in the financial community. Join us and transform your trading experience!
+          </h2>
         </div>
       </div>
     </div>

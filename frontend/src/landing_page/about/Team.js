@@ -47,7 +47,7 @@ function Team() {
       ],
     },
     {
-      name: "Palak",
+      name: "Palak Jain",
       branch: "Mechanical",
     //   imageSrc: palakImage,
     imageSrc: "media/images/palak.jpeg", 

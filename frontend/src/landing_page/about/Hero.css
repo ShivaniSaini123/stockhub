@@ -3,8 +3,18 @@
     padding: 0;
     background-color: #f8f9fa; 
 }
+.title{
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #333; 
+    text-align: center;
+    line-height: 1.4;
+    margin: 0;
+    padding: 0 15px; 
+
+}
 .hero-title {
-    font-size: 2.5rem; 
+    font-size: 1.5rem; 
     font-weight: 600;
     color: #333; 
     text-align: center;
