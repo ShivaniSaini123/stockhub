@@ -1,23 +1,58 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios'; 
 
 function Posts() {
     const [posts, setPosts] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [uploadedDoc, setUploadedDoc] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [username, setUsername] = useState('');
+
+    useEffect(() => {
+        // getting all post from backend
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get("http://localhost:3003/api/posts");
+                setPosts(response.data.posts); 
+            } catch (error) {
+                console.error("Error fetching posts:", error);
+            }
+        };
+
+        fetchPosts();
+    }, []);
 
     // To show add post form
     const toggleModal = () => setShowModal(!showModal);
 
     // To handle post submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (inputValue.trim() || uploadedDoc) {
-            setPosts([...posts, { content: inputValue, doc: uploadedDoc }]);
-            setInputValue('');
-            setUploadedDoc(null);
-            toggleModal();
+            const formData = new FormData();
+            formData.append('content', inputValue);
+            formData.append('username', username.trim() || 'anonymous');
+            if (uploadedDoc) {
+                formData.append('doc', uploadedDoc);
+            }
+
+            try {
+                const response = await axios.post("http://localhost:3003/api/posts/create", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+
+                // Check response data
+                console.log(response.data.message); 
+                setPosts([...posts, response.data.post]); 
+                setInputValue('');
+                setUploadedDoc(null);
+                setUsername(''); 
+                toggleModal();
+            } catch (error) {
+                console.error("Error creating post:", error); 
+            }
         }
     };
 
@@ -28,15 +63,11 @@ function Posts() {
 
     return (
         <div className="container mt-5">
-            {/* Check if button renders correctly */}
-
-            <div className="d-flex justify-content-center mb-3"> {/* Centering the button */}
-                <button className="btn btn-outline-success" onClick={toggleModal}> {/* Outline button with green color */}
+            <div className="d-flex justify-content-center mb-3">
+                <button className="btn btn-outline-success" onClick={toggleModal}>
                     Create a Post
                 </button>
             </div>
-
-
 
             {/* Modal */}
             {showModal && (
@@ -49,10 +80,16 @@ function Posts() {
                             </div>
                             <div className="modal-body">
                                 <form onSubmit={handleSubmit}>
-                                    <div className="d-flex align-items-center mb-3">
-                                        <img src="https://via.placeholder.com/50" alt="Profile" className="rounded-circle me-3" />
-                                        <span className="fw-bold">User Name</span>
-                                        <button type="button" className="btn btn-outline-success ms-auto">Video Call</button>
+                                    <div className="mb-3">
+                                        <label htmlFor="username" className="form-label">Username</label>
+                                        <input
+                                            type="text"
+                                            id="username"
+                                            value={username}
+                                            onChange={(e) => setUsername(e.target.value)}
+                                            placeholder="Enter your username..."
+                                            className="form-control"
+                                        />
                                     </div>
 
                                     <div className="mb-3">
@@ -83,7 +120,7 @@ function Posts() {
                     <div key={index} className="card p-4 mb-3">
                         <div className="d-flex align-items-center mb-3">
                             <img src="https://via.placeholder.com/50" alt="Profile" className="rounded-circle me-3" />
-                            <span className="fw-bold">User Name</span>
+                            <span className="fw-bold">{post.username}</span>
                         </div>
                         <p className="mb-2">{post.content}</p>
                         {post.doc && (
@@ -99,4 +136,3 @@ function Posts() {
 }
 
 export default Posts;
-

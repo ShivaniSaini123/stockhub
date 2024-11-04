@@ -10,14 +10,18 @@ import Positions from './landing_page/Dashboard/Positions';
 import Orders from './landing_page/Dashboard/Orders';
 import WatchList from './landing_page/Dashboard/WatchList';
 import ProfilePage from './landing_page/profile/profile';
+import Authentication from './landing_page/pages/authentication';
+import { AuthProvider } from './landing_page/contexts/AuthContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
+    <AuthProvider>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/dashboard/*" element={<Main/>} />
         <Route path="profile" element={<ProfilePage/>}/>
+        <Route path="/auth" element={<Authentication />} />
         {/* <Route path="/holdings" element={
   <>
     <Holdings />
@@ -28,7 +32,8 @@ root.render(
         <Route path="/orders" element={<Orders/>} /> */}
         {/* Add more routes as needed */}
       </Routes>
+      </AuthProvider>
     </Router>
   </React.StrictMode>
-);
 
+);

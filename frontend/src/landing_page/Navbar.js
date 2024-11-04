@@ -62,10 +62,19 @@ function Navbar() {
                         News
                     </Link>
                 </li>
+<<<<<<< HEAD
                
+=======
                 <li className="nav-item">
                     <Link className="nav-link active text-white" to="#">
+                        {/* Funds */}
                         About
+                    </Link>
+                </li>
+>>>>>>> 91bb1887cb67055799332a4b4ee04fefc26cc896
+                <li className="nav-item">
+                    <Link className="nav-link active text-white" to="/auth">
+                        Login
                     </Link>
                 </li>
                 <li className="nav-item">
