@@ -22,7 +22,7 @@ const Chatbot = () => {
             // Add the bot's response message
             setMessages((prev) => [...prev, botMessage]);
         } catch (error) {
-            console.error("error fetching stock data:", error);
+            console.error("Error fetching stock data:", error);
             const errorMessage = { text: "There was an error retrieving stock information", sender: 'bot' };
 
             // Add the error message from the bot if API call fails
@@ -35,12 +35,18 @@ const Chatbot = () => {
         <div className="position-relative">
             {/* Chatbot Icon */}
             <div
-                className="position-fixed bottom-16 start-0 m-3"
-                style={{ cursor: 'pointer', zIndex: 1000 }}
+                className="position-fixed"
+                style={{ 
+                    cursor: 'pointer',
+                    zIndex: 1000,
+                    bottom: '120px', // Higher above the footer
+                    right: '16px',   // Positioned at the bottom-right corner
+                    color: 'black'   // Changed color to black
+                }}
                 data-bs-toggle="modal"
                 data-bs-target="#chatbotModal"
             >
-                <i className="fa fa-comments fa-3x " aria-hidden="true"></i>
+                <i className="fa fa-comments fa-3x" aria-hidden="true"></i>
             </div>
 
             {/* Modal */}
@@ -83,7 +89,7 @@ const Chatbot = () => {
                                         placeholder="Ask about a stock"
                                         className="form-control"
                                     />
-                                    <button className="btn btn-success" onClick={handleSend} className="btn btn-success">
+                                    <button className="btn btn-success" onClick={handleSend}>
                                         Send
                                     </button>
                                 </div>
