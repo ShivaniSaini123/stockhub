@@ -9,11 +9,11 @@ function Posts() {
     const [username, setUsername] = useState('');
 
     useEffect(() => {
-        // getting all post from backend
+        // Getting all posts from backend
         const fetchPosts = async () => {
             try {
                 const response = await axios.get("http://localhost:3003/api/posts");
-                setPosts(response.data.posts); 
+                setPosts(response.data.posts);
             } catch (error) {
                 console.error("Error fetching posts:", error);
             }
@@ -44,14 +44,14 @@ function Posts() {
                 });
 
                 // Check response data
-                console.log(response.data.message); 
-                setPosts([...posts, response.data.post]); 
+                console.log(response.data.message);
+                setPosts([...posts, response.data.post]);
                 setInputValue('');
                 setUploadedDoc(null);
-                setUsername(''); 
+                setUsername('');
                 toggleModal();
             } catch (error) {
-                console.error("Error creating post:", error); 
+                console.error("Error creating post:", error);
             }
         }
     };
@@ -124,9 +124,11 @@ function Posts() {
                         </div>
                         <p className="mb-2">{post.content}</p>
                         {post.doc && (
-                            <a href={URL.createObjectURL(post.doc)} download={post.doc.name} className="text-decoration-underline">
-                                {post.doc.name}
-                            </a>
+                            <img
+                                src={post.doc} // Ensure `post.doc` is a valid URL from the backend
+                                alt="Uploaded content"
+                                className="img-fluid"
+                            />
                         )}
                     </div>
                 ))}
