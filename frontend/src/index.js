@@ -12,6 +12,7 @@ import WatchList from './landing_page/Dashboard/WatchList';
 import ProfilePage from './landing_page/profile/profile';
 import Authentication from './landing_page/pages/authentication';
 import { AuthProvider } from './landing_page/contexts/AuthContext';
+import About from './landing_page/about/About';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -22,6 +23,7 @@ root.render(
         <Route path="/dashboard/*" element={<Main/>} />
         <Route path="profile" element={<ProfilePage/>}/>
         <Route path="/auth" element={<Authentication />} />
+        <Route path="/about" element={<About/>}/>
         {/* <Route path="/holdings" element={
   <>
     <Holdings />

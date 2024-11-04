@@ -63,7 +63,7 @@ function Navbar() {
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link active text-white" to="#">
+                    <Link className="nav-link active text-white" to="about">
                         {/* Funds */}
                         About
                     </Link>
