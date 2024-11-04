@@ -1,0 +1,57 @@
+.container-fluid {
+    height: 60vh;
+    padding: 0;
+    background-color: #f8f9fa; 
+}
+.hero-title {
+    font-size: 2.5rem; 
+    font-weight: 600;
+    color: #333; 
+    text-align: center;
+    line-height: 1.4;
+    margin: 0;
+    padding: 0 15px; 
+}
+
+.hero-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh; 
+}
+
+.hero-content {
+    padding: 0 15px;
+    max-width: 800px;
+    margin: auto;
+}
+.hero-info {
+    padding: 3rem; 
+    line-height: 1.8;
+    font-size: 1.2em;
+    color: #6c757d; 
+    background-color: #ffffff; 
+}
+
+.hero-info p {
+    margin-bottom: 1.5rem; 
+}
+
+.hero-link {
+    color: #007bff; 
+    text-decoration: none;
+}
+
+.hero-link:hover {
+    text-decoration: underline;
+}
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-info {
+        padding: 1.5rem;
+        font-size: 1em;
+    }
+}

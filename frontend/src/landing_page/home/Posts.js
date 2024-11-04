@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; 
+import axios from 'axios';
+import './Posts.css';
+import 'bootstrap/dist/css/bootstrap.min.css'; 
 
 function Posts() {
     const [posts, setPosts] = useState([]);
@@ -9,7 +11,6 @@ function Posts() {
     const [username, setUsername] = useState('');
 
     useEffect(() => {
-        // Getting all posts from backend
         const fetchPosts = async () => {
             try {
                 const response = await axios.get("http://localhost:3003/api/posts");
@@ -22,10 +23,8 @@ function Posts() {
         fetchPosts();
     }, []);
 
-    // To show add post form
     const toggleModal = () => setShowModal(!showModal);
 
-    // To handle post submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (inputValue.trim() || uploadedDoc) {
@@ -42,9 +41,6 @@ function Posts() {
                         "Content-Type": "multipart/form-data",
                     },
                 });
-
-                // Check response data
-                console.log(response.data.message);
                 setPosts([...posts, response.data.post]);
                 setInputValue('');
                 setUploadedDoc(null);
@@ -56,20 +52,33 @@ function Posts() {
         }
     };
 
-    // Handle file upload
     const handleFileUpload = (e) => {
         setUploadedDoc(e.target.files[0]);
     };
 
+    const handleDelete = async (postId, postUsername) => {
+        if (!postId || !postUsername) {
+            console.error("postId or postUsername is undefined");
+            return;
+        }
+        try {
+            await axios.delete("http://localhost:3003/api/posts/delete", {
+                data: { postId, username: postUsername }
+            });
+            setPosts(posts.filter((post) => post._id !== postId));
+        } catch (error) {
+            console.error("Error deleting post:", error);
+        }
+    };
+
     return (
-        <div className="container mt-5">
+        <div className="container posts-container">
             <div className="d-flex justify-content-center mb-3">
-                <button className="btn btn-outline-success" onClick={toggleModal}>
+                <button className="btn btn-create" onClick={toggleModal}>
                     Create a Post
                 </button>
             </div>
 
-            {/* Modal */}
             {showModal && (
                 <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
                     <div className="modal-dialog">
@@ -106,7 +115,7 @@ function Posts() {
                                         <input type="file" onChange={handleFileUpload} className="form-control" />
                                     </div>
 
-                                    <button type="submit" className="btn btn-outline-success w-100">Add Post</button>
+                                    <button type="submit" className="btn btn-success w-100">Add Post</button>
                                 </form>
                             </div>
                         </div>
@@ -114,22 +123,25 @@ function Posts() {
                 </div>
             )}
 
-            {/* Display Posts */}
             <div className="post-list">
-                {posts.map((post, index) => (
-                    <div key={index} className="card p-4 mb-3">
+                {posts.map((post) => (
+                    <div key={post._id} className="card p-3 mb-4">
                         <div className="d-flex align-items-center mb-3">
                             <img src="https://via.placeholder.com/50" alt="Profile" className="rounded-circle me-3" />
-                            <span className="fw-bold">{post.username}</span>
+                            <span className="fw-bold ">{post.username}</span>
                         </div>
                         <p className="mb-2">{post.content}</p>
                         {post.doc && (
-                            <img
-                                src={post.doc} // Ensure `post.doc` is a valid URL from the backend
-                                alt="Uploaded content"
-                                className="img-fluid"
-                            />
+                            <a href={`http://localhost:3003/uploads/${post.doc}`} download className="text-decoration-underline text-success">
+                                {post.doc}
+                            </a>
                         )}
+                        <button
+                            className="btn btn-delete mt-4"
+                            onClick={() => handleDelete(post._id, post.username)}
+                        >
+                            Delete Post
+                        </button>
                     </div>
                 ))}
             </div>

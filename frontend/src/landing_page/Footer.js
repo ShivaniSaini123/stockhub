@@ -3,10 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear(); // Get the current year
+
   return (
     <footer style={styles.footer}>
       <div style={styles.container}>
-        <h2 style={styles.title}>EquiNex</h2>
         <div style={styles.socialMedia}>
           <a href="https://facebook.com" style={styles.link} target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={faFacebook} size="lg" />
@@ -25,6 +26,11 @@ const Footer = () => {
           <a href="/terms" style={styles.link}>Terms and Conditions</a>
           <span style={styles.separator}>|</span>
           <a href="/privacy" style={styles.link}>Privacy Policy</a>
+          <span style={styles.separator}>|</span>
+          <a href="/contact" style={styles.link}>Contact Us</a> {/* Added Contact Us link */}
+        </div>
+        <div style={styles.copyRight}>
+          <span>© {currentYear} EquiNex</span> {/* Copyright and year */}
         </div>
       </div>
     </footer>
@@ -35,7 +41,7 @@ const styles = {
   footer: {
     backgroundColor: 'black',
     color: 'white',
-    padding: '10px 0', // Reduced padding
+    padding: '5px 0', // Reduced padding
     textAlign: 'center',
     position: 'fixed',
     bottom: 0,
@@ -46,17 +52,21 @@ const styles = {
     margin: '0 auto',
   },
   title: {
-    margin: '0 0 5px', // Reduced bottom margin
-    fontSize: '20px', // Adjusted font size
+    margin: '0 0 5px',
+    fontSize: '20px',
   },
   socialMedia: {
     display: 'flex',
     justifyContent: 'center',
-    gap: '10px', // Reduced gap between icons
-    marginBottom: '5px', // Reduced margin
+    gap: '10px',
+    marginBottom: '5px',
   },
   links: {
-    marginTop: '5px', // Reduced top margin
+    marginTop: '5px',
+  },
+  copyRight: {
+    marginTop: '5px', // Add some space above the copyright text
+    fontSize: '14px', // You can adjust the font size if needed
   },
   link: {
     color: 'white',
