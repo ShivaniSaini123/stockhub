@@ -11,7 +11,7 @@ function HomePage() {
     return (
         <>
             <Navbar />
-            <div style={{ paddingTop: '80px' }}> {/* Height of your navbar */}
+            <div style={{ paddingTop: '80px' }}> 
                 <Posts />
                 <Chatbot />
             </div>
