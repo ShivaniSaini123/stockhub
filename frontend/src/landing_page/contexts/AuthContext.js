@@ -1,153 +1,93 @@
-// import axios from "axios";
-// import httpStatus from "http-status";
-// import { createContext, useContext, useState } from "react";
-// import { useNavigate } from "react-router-dom";
+// Import necessary modules for making HTTP requests and managing state/context
+import axios from "axios"; // Axios for making HTTP requests
+import httpStatus from "http-status"; // For handling HTTP status codes
+import { createContext, useContext, useState } from "react"; // React context and hooks
+import { useNavigate } from "react-router-dom"; // Hook for navigation
 
-
-// export const AuthContext = createContext({});
-
-// const client = axios.create({
-//     baseURL: "http://localhost:3003/api/v1/users"
-// })
-
-// export const AuthProvider = ({ children }) => {
-
-//     const authContext = useContext(AuthContext);
-//     const [userData, setUserData] = useState(authContext);
-//     const router = useNavigate();
-//     const handleRegister = async (name, username, password) => {
-//         try {
-//             let request = await client.post("/register", {
-//                 name: name,
-//                 username: username,
-//                 password: password
-//             })
-
-
-//             if (request.status === httpStatus.CREATED) {
-//                 return request.data.message;
-//             }
-//         } catch (err) {
-//             throw err;
-//         }
-//     }
-//     const handleLogin = async (username, password) => {
-//         try {
-//             let request = await client.post("/login", {
-//                 username: username,
-//                 password: password
-//             });
-
-//             console.log(username, password)
-//             console.log(request.data)
-
-//             // if (request.status === httpStatus.OK) {
-//             if (request.status === 200) {
-//                 localStorage.setItem("token", request.data.token);
-//                 router("/home")
-//             }
-//         } catch (err) {
-//             throw err;
-//         }
-//     }
-//     const getHistoryOfUser = async () => {
-//         try {
-//             let request = await client.get("/get_all_activity", {
-//                 params: {
-//                     token: localStorage.getItem("token")
-//                 }
-//             });
-//             return request.data
-//         } catch
-//          (err) {
-//             throw err;
-//         }
-//     }
-//     const data = {
-//         userData, setUserData, handleLogin,handleRegister
-//     }
-//     return (
-//         <AuthContext.Provider value={data}>
-//             {children}
-//         </AuthContext.Provider>
-//     )
-
-// }
-
-import axios from "axios";
-import httpStatus from "http-status";
-import { createContext, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+// Create a context for authentication
 export const AuthContext = createContext({});
 
+// Create an Axios instance with a base URL for user-related API requests
 const client = axios.create({
-    baseURL: "http://localhost:3003/api/v1/users"
+    baseURL: "http://localhost:3003/api/v1/users" // Base URL for API endpoints
 });
 
+// AuthProvider component to wrap the application and provide auth context
 export const AuthProvider = ({ children }) => {
+    // Get current context (if any) and set user data state
     const authContext = useContext(AuthContext);
-    const [userData, setUserData] = useState(authContext);
-    const router = useNavigate();
+    const [userData, setUserData] = useState(authContext); // State to hold user data
+    const router = useNavigate(); // Hook for navigation
 
+    // Async function to handle user registration
     const handleRegister = async (name, username, password) => {
         try {
+            // Send POST request to register a new user
             let request = await client.post("/register", {
                 name: name,
                 username: username,
                 password: password
             });
 
+            // Check if the request was successful (status 201)
             if (request.status === httpStatus.CREATED) {
-                return request.data.message;
+                return request.data.message; // Return success message
             }
         } catch (err) {
-            console.error("Registration error:", err);
-            throw err;
+            console.error("Registration error:", err); // Log registration error
+            throw err; // Propagate error
         }
     };
 
+    // Async function to handle user login
     const handleLogin = async (username, password) => {
         try {
+            // Send POST request to log in the user
             let request = await client.post("/login", {
                 username: username,
                 password: password
             });
-            console.log(username, password)
-            console.log(request.data)
+            console.log(username, password); // Log username and password for debugging
+            console.log(request.data); // Log response data
+
+            // Check if the request was successful (status 200)
             if (request.status === httpStatus.OK) {
-                localStorage.setItem("token", request.data.token);
-                // setUserData(request.data.user); // Store user data after login
-                router("/");
+                localStorage.setItem("token", request.data.token); // Store JWT token in localStorage
+                // setUserData(request.data.user); // Uncomment to store user data after login
+                router("/"); // Redirect to home page after successful login
             }
         } catch (err) {
-            console.error("Login error:", err);
-            throw err;
+            console.error("Login error:", err); // Log login error
+            throw err; // Propagate error
         }
     };
 
+    // Async function to get the user's activity history
     const getHistoryOfUser = async () => {
         try {
+            // Send GET request to fetch user activity history
             let request = await client.get("/get_all_activity", {
                 params: {
-                    token: localStorage.getItem("token")
+                    token: localStorage.getItem("token") // Send token as a query parameter
                 }
             });
-            return request.data;
+            return request.data; // Return activity data
         } catch (err) {
-            console.error("Error fetching user history:", err);
-            throw err;
+            console.error("Error fetching user history:", err); // Log error while fetching history
+            throw err; // Propagate error
         }
     };
 
+    // Context value to provide to children components
     const data = {
-        userData,
-        setUserData,
-        handleLogin,
-        handleRegister,
-        getHistoryOfUser
+        userData, // Current user data
+        setUserData, // Function to update user data
+        handleLogin, // Function to handle login
+        handleRegister, // Function to handle registration
+        getHistoryOfUser // Function to get user's activity history
     };
 
+    // Provide the context value to children components
     return (
         <AuthContext.Provider value={data}>
             {children}

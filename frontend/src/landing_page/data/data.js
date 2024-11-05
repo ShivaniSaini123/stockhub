@@ -53,6 +53,7 @@ export const watchlist = [
       percent: "1.04%",
       isDown: false,
     },
+ 
   ];
   
   // holdings
