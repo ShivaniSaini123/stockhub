@@ -36,10 +36,11 @@ function Navbar() {
                     className="form-control"
                     type="search"
                     placeholder="Search"
+                    borderRadius="5px"
                     aria-label="Search"
                     style={{ width: "300px", backgroundColor: "white" }}
                 />
-                <button className="btn" type="submit" style={{ backgroundColor: '#96e856', color: 'black',height:'37.6px',justifyContent:'center' }}>
+                <button className="btn" type="submit" style={{ backgroundColor: '#96e856', color: 'black',height:'37.6px',justifyContent:'center' ,padding:'9px' ,marginBottom:'5px'}}>
                     Search
                 </button>
             </form>

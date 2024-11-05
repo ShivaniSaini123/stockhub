@@ -37,7 +37,7 @@ const Holdings = () => {
   return (
     <>
       <h3 style={{ fontFamily: 'Roboto, sans-serif', color: "black", margin: '20px 0', fontWeight: '600' }}>
-        Holdings ({allHoldings.length})
+        Assets ({allHoldings.length})
       </h3>
 
       <div style={{ backgroundColor: '#1a1a1a', padding: '20px', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25)', marginBottom: '20px' }}>

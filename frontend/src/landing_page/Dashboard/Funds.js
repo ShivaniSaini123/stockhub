@@ -7,7 +7,7 @@ const Funds = () => {
     <>
       <div className="funds">
         <div className="funds-container">
-          <h1 className="title">Funds Overview</h1>
+          <h1 className="titlex" >Funds Overview</h1>
           <div className="row">
             <div className="col">
               <p>Your Funds</p>
