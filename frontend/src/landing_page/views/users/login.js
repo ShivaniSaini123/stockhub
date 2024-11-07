@@ -1,24 +1,26 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext'; // Ensure this path is correct
-import { useNavigate } from 'react-router-dom'; // For navigation
+import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Button } from 'bootstrap';
 
 const Login = () => {
+    const { user, loginWithRedirect ,isAuthenticated,logout} = useAuth0();
+    console.log("current user",user);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const { handleLogin } = useContext(AuthContext); // Get handleLogin function from context
-    const router = useNavigate(); // For navigating after login
+    const { handleLogin } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Attempt to log in using the handleLogin function from context
             const loginResponse = await handleLogin(username, password);
 
-            // Check for success or failure in the response
             if (loginResponse && loginResponse.success) {
                 console.log('Login Successful:', loginResponse.message);
-                router('/'); // Redirect to home page after successful login
+                navigate('/'); // Redirect to home page after successful login
             } else {
                 setErrorMessage('Login failed: Incorrect credentials');
             }
@@ -60,6 +62,18 @@ const Login = () => {
                         />
                     </div>
                     <button className="btn btn-success" type="submit">Log In</button>
+                    {isAuthenticated?(
+                       <button onClick={(e)=> logout()}>Logout</button>
+                    ):(
+                        <button 
+                        type="button" // Prevent form submission
+                        className="btn btn-primary ms-2" 
+                        onClick={() => loginWithRedirect()}
+                    >
+                        Log In with Google
+                    </button>
+                    )}
+                   
                 </form>
                 {errorMessage && (
                     <div className="alert alert-danger mt-3">
