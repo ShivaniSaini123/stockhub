@@ -63,16 +63,14 @@ function Posts() {
         }
         try {
             const token = localStorage.getItem('token');
-            {console.log(`the token is ${token}`)};
-            const response =await axios.delete("http://localhost:3003/api/posts/delete", {
+            console.log(`the token is ${token}`);
+            const response = await axios.delete("http://localhost:3003/api/posts/delete", {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                   
-                  },
+                },
                 data: { postId, username: postUsername }
             });
             console.log("Post deleted successfully:", response.data);
-            console.log('Post deleted successfully:');
             setPosts(posts.filter((post) => post._id !== postId));
         } catch (error) {
             console.error("Error deleting post:", error);
@@ -140,9 +138,13 @@ function Posts() {
                         </div>
                         <p className="mb-2">{post.content}</p>
                         {post.doc && (
-                            <a href={`http://localhost:3003/uploads/${post.doc}`} download className="text-decoration-underline text-success">
-                                {post.doc}
-                            </a>
+                            <div className="image-container">
+                                <img
+                                    src={`${post.doc.url}`} // Cloudinary URL structure
+                                    alt={post.doc.filename}
+                                    className="img-fluid mb-2"
+                                />
+                            </div>
                         )}
                         <button
                             className="btn btn-delete mt-4"

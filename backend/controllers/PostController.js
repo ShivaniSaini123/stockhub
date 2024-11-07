@@ -1,31 +1,38 @@
 
 const Post = require('../model/PostModel.js');
 const multer = require('multer');
-
+const {storage}=require('../cloudConfig.js')
 // Multer setup for file uploads--middleware for file uplod
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ storage });
 
 //  to create a post
 const createPost = async (req, res) => {
-  try {
-    const { content, username } = req.body;
-    let docPath = null;
-
-    // Handle file upload if a file is provided
-    if (req.file) {
-      docPath = req.file.path;
+    try {
+      let docPath = null;
+  
+      // Handle file upload if a file is provided
+      if (req.file) {
+        docPath = req.file.path; // URL path for the uploaded image
+      }
+  
+      const { content, username } = req.body;
+  
+      // Create a new post object
+      const newPost = new Post({
+        content,
+        doc: { url: docPath, filename: req.file ? req.file.filename : null }, // Ensure filename is available if file exists
+        username,
+      });
+  
+      await newPost.save();
+  
+      res.status(201).json({ message: "Post created successfully", post: newPost });
+      console.log("Post created successfully");
+    } catch (error) {
+      res.status(500).json({ message: "Server error", error: error.message });
     }
-
-    const newPost = new Post({ content, doc: docPath, username });
-    await newPost.save();
-
-    res.status(201).json({ message: "Post created successfully", post: newPost });
-    console.log("Post created successfully");
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
-};
-
+  };
+  
 // to get all posts
 
 const getAllPosts = async (req, res) => {

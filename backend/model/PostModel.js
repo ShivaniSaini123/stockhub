@@ -7,8 +7,9 @@ const postSchema = new mongoose.Schema({
       required: true,
     },
     doc: {
-      type: String, 
-      default: null,
+    //   type: String,
+      url:String,
+      filename:String,
     },
     username: {
       type: String,
