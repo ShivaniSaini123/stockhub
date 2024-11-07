@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from 'react-router-dom';
+import { AuthContext } from './contexts/AuthContext'; // Update this path
 
 function Navbar() {
-    const handleSearchSubmit = (e) => {
-        e.preventDefault();
-        console.log("Search button clicked");
+    const { userData, setUserData } = useContext(AuthContext);
+
+    const handleLogout = () => {
+        localStorage.removeItem("token"); // Remove the token from localStorage
+        setUserData(null); // Reset user data to indicate logout
     };
 
     return (
@@ -31,7 +34,7 @@ function Navbar() {
             </a>
 
             {/* Center Section: Search Bar */}
-            <form className="d-flex align-items-center" onSubmit={handleSearchSubmit} style={{ gap: "0.5rem" }}>
+            <form className="d-flex align-items-center"  style={{ gap: "0.5rem" }}>
                 <input
                     className="form-control"
                     type="search"
@@ -40,7 +43,7 @@ function Navbar() {
                     aria-label="Search"
                     style={{ width: "300px", backgroundColor: "white" }}
                 />
-                <button className="btn" type="submit" style={{ backgroundColor: '#96e856', color: 'black',height:'37.6px',justifyContent:'center' ,padding:'9px' ,marginBottom:'5px'}}>
+                <button className="btn" type="submit" style={{ backgroundColor: '#96e856', color: 'black', height: '37.6px', justifyContent: 'center', padding: '9px', marginBottom: '5px' }}>
                     Search
                 </button>
             </form>
@@ -56,36 +59,41 @@ function Navbar() {
                         Dashboard
                     </Link>
                 </li>
-             
-             
                 <li className="nav-item">
                     <Link className="nav-link active text-white" to="#">
                         News
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link active text-white" to="about">
-                        {/* Funds */}
+                    <Link className="nav-link active text-white" to="/about">
                         About
                     </Link>
                 </li>
+
+                {/* Conditional Rendering */}
+                {!userData ? (
+                    <>
+                        <li className="nav-item">
+                            <Link className="nav-link active text-white" to="/signup">
+                                SignUp
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link active text-white" to="/login">
+                                Login
+                            </Link>
+                        </li>
+                    </>
+                ) : (
+                    <li className="nav-item">
+                        <Link className="nav-link active text-white" to="/logout" onClick={handleLogout}>
+                            Logout
+                        </Link>
+                    </li>
+                )}
+
                 <li className="nav-item">
-                    <Link className="nav-link active text-white" to="/signup">
-                        SignUp
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link active text-white" to="/login">
-                        Login
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link active text-white" to="/logout">
-                        Logout
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link active" to="profile">
+                    <Link className="nav-link active" to="/profile">
                         <i className="fas fa-user fa-lg text-white"></i>
                     </Link>
                 </li>

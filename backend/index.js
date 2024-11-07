@@ -15,6 +15,7 @@ const session = require('express-session');
 const flash=require("connect-flash");
 const userRouter=require("./routes/user.js");
 const path = require('path');
+const MongoStore = require('connect-mongo');
 // Import Mongoose models
 const { HoldingsModel } = require("./model/HoldingsModel");
 const { PositionsModel } = require("./model/PositionsModel");
@@ -38,8 +39,15 @@ app.use(cors({
   methods: "GET,POST,PUT,DELETE",
   credentials: true
 }));
+const store =  MongoStore.create({
+    mongoUrl: process.env.MONGO_URL,
+    crypto: {
+        secret: process.env.SECRET, 
+      },
+      touchAfter: 24 * 3600,
+});
 const sessionOption = {
-    
+    store,
     secret:"mysupersecretstring" ,
     resave: false, 
     saveUninitialized: true,
@@ -69,13 +77,7 @@ app.use("/",userRouter);
 
 // Retrieve the Alpha Vantage API key from environment variables
 const ALPHA_VANTAGE_API_KEY = process.env.ALPHA_VANTAGE_API_KEY;
-// const store =  MongoStore.create({
-//     mongoUrl: dbUrl,
-//     crypto: {
-//         secret: process.env.SECRET, 
-//       },
-//       touchAfter: 24 * 3600,
-// });
+
 
 // node
 // Session MiddleWare Define ↓
