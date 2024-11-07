@@ -8,22 +8,29 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const axios = require('axios');
-
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./model/user1.js');
+const session = require('express-session');
+const flash=require("connect-flash");
+const userRouter=require("./routes/user.js");
+const path = require('path');
 // Import Mongoose models
 const { HoldingsModel } = require("./model/HoldingsModel");
 const { PositionsModel } = require("./model/PositionsModel");
 const { OrdersModel } = require("./model/OrdersModel");
 
 // Import route handlers
-const userRoutes = require("./routes/user.routes.js");
+// const userRoutes = require("./routes/user.routes.js");
 const postRoutes = require('./routes/PostRoutes.js');
 
 // Set the port and MongoDB URI
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || 3003 || 3000;
 const uri = process.env.MONGO_URL;
 
 // Create an Express application
 const app = express();
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Configure CORS to allow requests from the frontend
 app.use(cors({
@@ -31,15 +38,47 @@ app.use(cors({
   methods: "GET,POST,PUT,DELETE",
   credentials: true
 }));
+const sessionOption = {
+    
+    secret:"mysupersecretstring" ,
+    resave: false, 
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000, 
+        httpOnly: true,
+    },
+};
 
+app.use(session( sessionOption ));
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+// use static serialize and deserialize of model for passport session support
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 // Middleware for parsing JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads")); // Serve uploaded files
 app.use(bodyParser.json());
+app.use("/",userRouter);
 
 // Retrieve the Alpha Vantage API key from environment variables
 const ALPHA_VANTAGE_API_KEY = process.env.ALPHA_VANTAGE_API_KEY;
+// const store =  MongoStore.create({
+//     mongoUrl: dbUrl,
+//     crypto: {
+//         secret: process.env.SECRET, 
+//       },
+//       touchAfter: 24 * 3600,
+// });
+
+// node
+// Session MiddleWare Define ↓
 
 // MongoDB connection events
 mongoose.connection.on("connected", () => {
@@ -54,9 +93,26 @@ mongoose.connection.on("disconnected", () => {
   console.log("Disconnected from MongoDB");
 });
 
+
+
+
+
 // Register route handlers
-app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/users", userRouter);
 app.use("/api/posts", postRoutes);
+app.get("/hello", (req, res) => {
+    res.json({ name: req.session.name, msg: req.flash("success") });
+  });
+  
+
+app.get("/demouser", async(req, res) => {
+    let fuser = new User ({
+        email: "suna@gmail.ocm",
+        username: "sunax"
+    });
+    let regUser = await User.register(fuser, "helloworld");
+    res.send(regUser);
+});
 
 // Endpoint to get all holdings
 app.get("/allHoldings", async (req, res) => {

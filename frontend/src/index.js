@@ -13,6 +13,9 @@ import ProfilePage from './landing_page/profile/profile';
 import Authentication from './landing_page/pages/authentication';
 import { AuthProvider } from './landing_page/contexts/AuthContext';
 import About from './landing_page/about/About';
+import Login from './landing_page/views/users/login.js';
+import Signup from './landing_page/views/users/signup.js';
+import Logout from './landing_page/views/users/logout.js';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -24,6 +27,9 @@ root.render(
         <Route path="profile" element={<ProfilePage/>}/>
         <Route path="/auth" element={<Authentication />} />
         <Route path="/about" element={<About/>}/>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
         {/* <Route path="/holdings" element={
   <>
     <Holdings />

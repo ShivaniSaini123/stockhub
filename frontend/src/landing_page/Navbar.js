@@ -70,8 +70,18 @@ function Navbar() {
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link active text-white" to="/auth">
+                    <Link className="nav-link active text-white" to="/signup">
+                        SignUp
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link active text-white" to="/login">
                         Login
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link active text-white" to="/logout">
+                        Logout
                     </Link>
                 </li>
                 <li className="nav-item">
