@@ -29,7 +29,7 @@ module.exports.signup = async (req, res, next) => {
             // Generate JWT token after successful login
             const token = jwt.sign(
                 { userId: registerUser._id, username: registerUser.username },
-                process.env.JWT_SECRET_KEY,  // Use your secret key from environment variables
+                process.env.SECRET,  // Use your secret key from environment variables
                 { expiresIn: "1h" }  // Token expiration time
             );
 

@@ -38,16 +38,19 @@ const getAllPosts = async (req, res) => {
 };
 
 const deletePost = async (req, res) => {
+  console.log(req.user);
+  console.log("clicked delete")
   try {
     const { postId, username } = req.body;
-    console.log(`Received delete request with postId: ${postId}, username: ${username}`);
+    const loggedInUsername = req.user.username;
+    console.log(`Received delete request with postId: ${postId}, username: ${username},usernames:${loggedInUsername}`);
 
     // Check if the post exists and if the requesting user is the owner
     const post = await Post.findOne({ _id: postId });
 
     // If post doesn't exist or the username doesn't match
-
-    if (!post || post.username !== post.username) {
+    console.log(`logged in username id ${loggedInUsername}`)
+    if (!post || post.username != loggedInUsername) {
       return res.status(403).json({ message: "You are not authorized to delete this post" });
     }
 

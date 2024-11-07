@@ -62,9 +62,17 @@ function Posts() {
             return;
         }
         try {
-            await axios.delete("http://localhost:3003/api/posts/delete", {
+            const token = localStorage.getItem('token');
+            {console.log(`the token is ${token}`)};
+            const response =await axios.delete("http://localhost:3003/api/posts/delete", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                   
+                  },
                 data: { postId, username: postUsername }
             });
+            console.log("Post deleted successfully:", response.data);
+            console.log('Post deleted successfully:');
             setPosts(posts.filter((post) => post._id !== postId));
         } catch (error) {
             console.error("Error deleting post:", error);

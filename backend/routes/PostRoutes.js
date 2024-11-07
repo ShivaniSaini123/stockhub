@@ -1,6 +1,7 @@
 
 const express = require('express');
 const { createPost, getAllPosts, deletePost, upload } = require('../controllers/PostController');
+const { isAuthenticated } = require('../middleware2');
 
 const router = express.Router();
 
@@ -11,6 +12,6 @@ router.post("/create", upload.single("doc"), createPost);
 router.get("/", getAllPosts);
 
 //to delete post by the creater
-router.delete("/delete", deletePost);
+router.delete("/delete", isAuthenticated, deletePost);
 
 module.exports = router;
