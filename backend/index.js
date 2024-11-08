@@ -210,4 +210,4 @@ app.listen(PORT, () => {
   mongoose.connect(uri); // Connect to MongoDB
   console.log("DB started!");
   console.log(`started on port ${PORT}`); // Log the server port
-});
+}); 
