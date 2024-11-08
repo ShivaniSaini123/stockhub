@@ -34,7 +34,7 @@ function Navbar() {
             </a>
 
             {/* Center Section: Search Bar */}
-            <form className="d-flex align-items-center"  style={{ gap: "0.5rem" }}>
+            <form className="d-flex align-items-center" style={{ gap: "0.5rem" }}>
                 <input
                     className="form-control"
                     type="search"
@@ -60,7 +60,7 @@ function Navbar() {
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link active text-white" to="#">
+                    <Link className="nav-link active text-white" to="/news">
                         News
                     </Link>
                 </li>

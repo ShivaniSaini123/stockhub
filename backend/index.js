@@ -12,8 +12,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./model/user1.js');
 const session = require('express-session');
-const flash=require("connect-flash");
-const userRouter=require("./routes/user.js");
+const flash = require("connect-flash");
+const userRouter = require("./routes/user.js");
 const path = require('path');
 const MongoStore = require('connect-mongo');
 // Import Mongoose models
@@ -39,26 +39,26 @@ app.use(cors({
   methods: "GET,POST,PUT,DELETE",
   credentials: true
 }));
-const store =  MongoStore.create({
-    mongoUrl: process.env.MONGO_URL,
-    crypto: {
-        secret: process.env.SECRET, 
-      },
-      touchAfter: 24 * 3600,
+const store = MongoStore.create({
+  mongoUrl: process.env.MONGO_URL,
+  crypto: {
+    secret: process.env.SECRET,
+  },
+  touchAfter: 24 * 3600,
 });
 const sessionOption = {
-    store,
-    secret:"mysupersecretstring" ,
-    resave: false, 
-    saveUninitialized: true,
-    cookie: {
-        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
-        maxAge: 7 * 24 * 60 * 60 * 1000, 
-        httpOnly: true,
-    },
+  store,
+  secret: "mysupersecretstring",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+  },
 };
 
-app.use(session( sessionOption ));
+app.use(session(sessionOption));
 app.use(flash());
 
 app.use(passport.initialize());
@@ -73,7 +73,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads")); // Serve uploaded files
 app.use(bodyParser.json());
-app.use("/",userRouter);
+app.use("/", userRouter);
 
 // Retrieve the Alpha Vantage API key from environment variables
 const ALPHA_VANTAGE_API_KEY = process.env.ALPHA_VANTAGE_API_KEY;
@@ -103,17 +103,17 @@ mongoose.connection.on("disconnected", () => {
 app.use("/api/v1/users", userRouter);
 app.use("/api/posts", postRoutes);
 app.get("/hello", (req, res) => {
-    res.json({ name: req.session.name, msg: req.flash("success") });
-  });
-  
+  res.json({ name: req.session.name, msg: req.flash("success") });
+});
 
-app.get("/demouser", async(req, res) => {
-    let fuser = new User ({
-        email: "suna@gmail.ocm",
-        username: "sunax"
-    });
-    let regUser = await User.register(fuser, "helloworld");
-    res.send(regUser);
+
+app.get("/demouser", async (req, res) => {
+  let fuser = new User({
+    email: "suna@gmail.ocm",
+    username: "sunax"
+  });
+  let regUser = await User.register(fuser, "helloworld");
+  res.send(regUser);
 });
 
 // Endpoint to get all holdings
@@ -157,6 +157,45 @@ app.post("/newOrder", async (req, res) => {
   }
 });
 
+//news endpoint
+app.get('/api/news', async (req, res) => {
+  try {
+    // Fetch data for multiple companies (e.g., AAPL, MSFT, TSLA)
+    const response = await axios.get('http://api.marketstack.com/v1/eod', {
+      params: {
+        access_key: process.env.MARKETSTACK_API_KEY,
+        //,FB,BRK.B,V,JPM,JNJ,WMT,PG,UNH,MA,DIS,HD,PFE,BAC,VZ,ADBE,CMCSA,PYPL,KO,PEP
+        symbols: 'AAPL,MSFT,TSLA,GOOGL,AMZN,NVDA',
+        limit: 6 // Retrieve only the latest data for each symbol
+      },
+    });
+
+    // Filter and format data
+    const latestData = response.data.data.reduce((acc, item) => {
+      // Store only the latest entry for each symbol
+      if (!acc[item.symbol] || new Date(item.date) > new Date(acc[item.symbol].date)) {
+        acc[item.symbol] = item;
+      }
+      return acc;
+    }, {});
+
+    // Convert the object to an array
+    const formattedNews = Object.values(latestData).map(item => ({
+      symbol: item.symbol,
+      date: item.date,
+      open: item.open,
+      high: item.high,
+      low: item.low,
+      close: item.close,
+      volume: item.volume,
+    }));
+
+    res.json(formattedNews);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch stock news' });
+  }
+});
 // Chatbot endpoint to fetch stock data
 app.post('/chatbot', async (req, res) => {
   const { message } = req.body;
