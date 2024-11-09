@@ -38,8 +38,7 @@ wss.on('connection', (ws) => {
   const intervalId = setInterval(async () => {
     try {
       // Fetch data for multiple stocks from Finnhub
-      const stocks = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA', 'NFLX', 'META', 'NVDA', 'INTC', 'AMD'];
-      // Add more symbols as needed
+      const stocks = ['AAPL', 'GOOGL', 'MSFT',]; // Add more symbols as needed
       const stockDataPromises = stocks.map((symbol) => fetchStockData(symbol));
       const stockData = await Promise.all(stockDataPromises);
 
