@@ -1,13 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from 'react-router-dom';
-import { AuthContext } from './contexts/AuthContext'; // Update this path
+import { AuthContext } from './contexts/AuthContext';
 
 function Navbar() {
     const { userData, setUserData } = useContext(AuthContext);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
 
     const handleLogout = () => {
         localStorage.removeItem("token"); // Remove the token from localStorage
         setUserData(null); // Reset user data to indicate logout
+    };
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
     };
 
     return (
@@ -39,7 +44,6 @@ function Navbar() {
                     className="form-control"
                     type="search"
                     placeholder="Search"
-                    borderRadius="5px"
                     aria-label="Search"
                     style={{ width: "300px", backgroundColor: "white" }}
                 />
@@ -70,7 +74,6 @@ function Navbar() {
                     </Link>
                 </li>
 
-                {/* Conditional Rendering */}
                 {!userData ? (
                     <>
                         <li className="nav-item">
@@ -85,18 +88,48 @@ function Navbar() {
                         </li>
                     </>
                 ) : (
-                    <li className="nav-item">
-                        <Link className="nav-link active text-white" to="/logout" onClick={handleLogout}>
-                            Logout
-                        </Link>
-                    </li>
+                    <>
+                        <li className="nav-item">
+                            <Link className="nav-link active text-white" to="/logout" onClick={handleLogout}>
+                                Logout
+                            </Link>
+                        </li>
+                        <li className="nav-item dropdown">
+                            <button
+                                className="btn nav-link active text-white"
+                                onClick={toggleDropdown}
+                                style={{ backgroundColor: "transparent", border: "none" }}
+                            >
+                                <i className="fas fa-user fa-lg text-white"></i>
+                            </button>
+                            {/* Conditionally render dropdown */}
+                            {dropdownOpen && (
+                                <ul
+                                    className="dropdown-menu show" // Use "show" class for visibility
+                                    style={{
+                                        display: "block",
+                                        position: "absolute",
+                                        top: "60px",
+                                        right: "20px",
+                                        backgroundColor: "white",
+                                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                                    }}
+                                >
+                                    <li>
+                                        <Link className="dropdown-item" to="/profile">
+                                            Profile
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link className="dropdown-item" to="/chat">
+                                            Chat
+                                        </Link>
+                                    </li>
+                                </ul>
+                            )}
+                        </li>
+                    </>
                 )}
-
-                <li className="nav-item">
-                    <Link className="nav-link active" to="/profile">
-                        <i className="fas fa-user fa-lg text-white"></i>
-                    </Link>
-                </li>
             </ul>
         </nav>
     );

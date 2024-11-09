@@ -1,228 +1,199 @@
-import React, { useState, useRef } from "react"; // Import React and hooks
+import React, { useState, useRef, useEffect } from "react";
 import './profile.css'; // Import CSS styles for the profile page
 import Navbar from '../Navbar'; // Import Navbar component
 import Footer from "../Footer"; // Import Footer component
 
-// Define the ProfilePage component
 function ProfilePage() {
-  // State to track the currently active tab
-  const [activeTab, setActiveTab] = useState("about");
-  // State to manage messages in the chat section
-  const [messages, setMessages] = useState([]);
-  // State to handle new message input
-  const [newMessage, setNewMessage] = useState("");
-  // State to manage followers
-  const [followers, setFollowers] = useState([]); 
-  // State for adding new followers
-  const [newFollower, setNewFollower] = useState(""); 
-  // State for about section details
-  const [aboutDetails, setAboutDetails] = useState(""); 
-  // State to store submitted about details
-  const [submittedAboutDetails, setSubmittedAboutDetails] = useState(""); 
-  // Ref to handle file input for document upload
+  const [description, setDescription] = useState("");
+  const [submittedDescription, setSubmittedDescription] = useState("");
+  const [interests, setInterests] = useState("");
+  const [submittedInterests, setSubmittedInterests] = useState("");
+  const [contactInfo, setContactInfo] = useState({ email: "", phone: "", linkedin: "" });
+  const [uploadedDocuments, setUploadedDocuments] = useState([]);
   const fileInputRef = useRef(null);
 
-  // Function to send a message in the chat section
-  const handleSendMessage = () => {
-    if (newMessage.trim() !== "") { // Ensure message is not empty
-      setMessages([...messages, newMessage]); // Add the new message to the list
-      setNewMessage(""); // Clear the input field
-    }
-  };
+  const userdata = JSON.parse(localStorage.getItem("userData")) || {};
+  const [userName, setUserName] = useState(userdata.username || "");
+  const [userEmail, setUserEmail] = useState(userdata.email || "");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Function to trigger the file input click
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      fetch('/profile', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => response.json())
+        .then((userdata) => {
+          if (userdata.user.username && userdata.user.email) {
+            setUserName(userdata.user.username);
+            setUserEmail(userdata.user.email);
+            localStorage.setItem("userData", JSON.stringify(userdata));
+          }
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error("Error fetching user data:", err);
+          setError("Failed to fetch user data");
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
   const handleDocumentClick = () => {
     if (fileInputRef.current) {
-      fileInputRef.current.click(); // Programmatically click the hidden file input
+      fileInputRef.current.click();
     }
   };
 
-  // Function to handle file selection
   const handleFileChange = (event) => {
-    const file = event.target.files[0]; // Get the selected file
+    const file = event.target.files[0];
     if (file) {
-      console.log("Selected file:", file.name); // Log the file name (you can handle the file upload here)
+      const newDocument = { name: file.name, file };
+      setUploadedDocuments([...uploadedDocuments, newDocument]);
     }
   };
 
-  // Function to add a new follower
-  const handleAddFollower = () => {
-    if (newFollower.trim() !== "") { // Ensure follower name is not empty
-      setFollowers([...followers, newFollower.trim()]); // Add the new follower to the list
-      setNewFollower(""); // Clear the input field
-    }
-  };
-
-  // Function to remove a follower
-  const handleRemoveFollower = (followerToRemove) => {
-    setFollowers(followers.filter(follower => follower !== followerToRemove)); // Filter out the removed follower
-  };
-
-  // Function to handle changes in the about textarea
-  const handleAboutChange = (e) => {
-    setAboutDetails(e.target.value); // Update about details state
-  };
-
-  // Function to submit the about details
-  const handleAboutSubmit = (e) => {
-    e.preventDefault(); // Prevent page refresh on form submission
-    if (aboutDetails.trim() !== "") { // Ensure about details are not empty
-      setSubmittedAboutDetails(aboutDetails); // Store submitted about details
-      setAboutDetails(""); // Clear the textarea
-    }
+  const handleViewDocument = (file) => {
+    const fileURL = URL.createObjectURL(file);
+    window.open(fileURL, "_blank");
   };
 
   return (
     <div>
-      <Navbar /> {/* Render the Navbar component */}
-      <Footer /> {/* Render the Footer component */}
-      <div className="profile-page"> {/* Main container for the profile page */}
-
-        <div className="header"> {/* Header section with profile information */}
-          <div className="profile-picture"> {/* Profile picture container */}
-            <img 
-              src="https://thumbs.dreamstime.com/b/vector-illustration-isolated-white-background-user-profile-avatar-black-line-icon-user-profile-avatar-black-solid-icon-121102166.jpg?w=768" 
-              alt="Icon" 
-              className="icon" // Profile icon image
+      <Navbar />
+      <div className="profile-page">
+        <div className="header">
+          <div className="profile-picture">
+            <img
+              src="https://thumbs.dreamstime.com/b/vector-illustration-isolated-white-background-user-profile-avatar-black-line-icon-user-profile-avatar-black-solid-icon-121102166.jpg?w=768"
+              alt="Icon"
+              className="icon"
             />
           </div>
-
-          <div className="profile-info"> {/* Profile information section */}
-            <h2>Name: New User</h2> {/* User name */}
-            <p>Company: XYZ Corp</p> {/* Company name */}
-            <p>Position: Software Engineer</p> {/* User position */}
+          <div className="profile-info">
+            <h2>Name: {userName}</h2>
+            <p>Email: {userEmail}</p>
           </div>
         </div>
 
-        <div className="tabs"> {/* Tab navigation for different sections */}
-          <button 
-            className={activeTab === "about" ? "active" : ""} // Highlight active tab
-            onClick={() => setActiveTab("about")}>
-            About
-          </button>
-          <button 
-            className={activeTab === "chat" ? "active" : ""} 
-            onClick={() => setActiveTab("chat")}>
-            Chat
-          </button>
-          <button 
-            className={activeTab === "docs" ? "active" : ""} 
-            onClick={handleDocumentClick}> 
-            Upload Documents
-          </button>
-          <button 
-            className={activeTab === "followers" ? "active" : ""} 
-            onClick={() => setActiveTab("followers")}>
-            Followers
-          </button>
-        </div>
-
-        <div className="content"> {/* Content area for the active tab */}
-          {activeTab === "about" && (
-            <div className="about-section"> {/* About section */}
-              <h3>About</h3>
-              <form onSubmit={handleAboutSubmit}> {/* Form for submitting about details */}
-                <div>
-                  <textarea
-                    value={aboutDetails} // Bind textarea value to state
-                    onChange={handleAboutChange} // Handle changes
-                    placeholder="Write about yourself..."
-                    className="about-textarea" // Class for styling
-                    rows="4" // Number of rows in the textarea
-                    required
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary">Submit</button> {/* Submit button */}
-              </form>
-              <div className="submitted-messages"> {/* Section for submitted about details */}
-                <h4>Your About Details:</h4>
-                <p>{submittedAboutDetails}</p> {/* Display submitted about details */}
-              </div>
+        <div className="content">
+          {/* Description Section */}
+          <div className="description-section">
+            <h3>Description</h3>
+            <form onSubmit={(e) => { e.preventDefault(); setSubmittedDescription(description); setDescription(""); }}>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Write about yourself..."
+                className="description-textarea"
+                rows="4"
+                required
+              />
+              <button type="submit" className="btn btn-primary">
+                Submit
+              </button>
+            </form>
+            <div className="submitted-description">
+              <h4>Your Description:</h4>
+              <p>{submittedDescription}</p>
             </div>
-          )}
-
-          {activeTab === "chat" && (
-            <div className="chat-section"> {/* Chat section */}
-              <h3>Chat</h3>
-              <div className="chat-messages"> {/* Container for chat messages */}
-                {messages.map((msg, index) => (
-                  <p key={index} className="message">{msg}</p> // Render each message
-                ))}
-              </div>
-              <div className="chat-input"> {/* Input area for sending messages */}
-                <input
-                  type="text"
-                  value={newMessage} // Bind input value to state
-                  onChange={(e) => setNewMessage(e.target.value)} // Handle input change
-                  placeholder="Type a message..."
-                  className="form-control" // Class for styling
-                />
-                <button onClick={handleSendMessage} className="btn btn-primary">Send</button> {/* Send button */}
-              </div>
-            </div>
-          )}
-
-          {activeTab === "docs" && (
-            <div className="documents-section"> {/* Document upload section */}
-              <h3>Upload new Documents</h3>
-              <p>List of documents will appear here.</p> {/* Placeholder for document list */}
-            </div>
-          )}
-
-          {activeTab === "followers" && (
-            <div className="follow-section"> {/* Followers section */}
-              <h3>Followers</h3>
-              <div className="add-follower"> {/* Input area for adding followers */}
-                <input
-                  type="text"
-                  value={newFollower} // Bind input value to state
-                  onChange={(e) => setNewFollower(e.target.value)} // Handle input change
-                  placeholder="Add a follower..."
-                  className="form-control" // Class for styling
-                />
-                <button onClick={handleAddFollower} className="btn btn-primary">Add</button> {/* Add button */}
-              </div>
-              <div className="follower-list"> {/* List of current followers */}
-                <h4>Current Followers</h4>
-                {followers.length > 0 ? ( // Check if there are followers
-                  <ul>
-                    {followers.map((follower, index) => ( // Render each follower
-                      <li key={index}>
-                        {follower}
-                        <button onClick={() => handleRemoveFollower(follower)} className="btn btn-danger btn-sm">Remove</button> {/* Remove button */}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>No followers yet.</p> // Message when no followers are present
-                )}
-              </div>
-            </div>
-          )}
-
-          <div className="interests"> {/* Interests section */}
-            <h4>Interested in</h4>
-            <p>Enthusiastic about stock market analysis, investment strategies, financial trends, and portfolio management. If you're interested, let's connect!</p> {/* Description of interests */}
           </div>
 
-          <div className="contact-info"> {/* Contact information section */}
-            <h4>Contact</h4>
-            <p>Email: example@example.com</p> {/* Email contact */}
-            <p>Phone: +1234567890</p> {/* Phone contact */}
-            <p>LinkedIn: <a href="https://linkedin.com">linkedin.com/in/username</a></p> {/* LinkedIn profile link */}
+          {/* Interested In Section */}
+          <div className="interests-section">
+            <h3>Interested In</h3>
+            <form onSubmit={(e) => { e.preventDefault(); setSubmittedInterests(interests); setInterests(""); }}>
+              <textarea
+                value={interests}
+                onChange={(e) => setInterests(e.target.value)}
+                placeholder="Write your interests here..."
+                className="interests-textarea"
+                rows="3"
+                required
+              />
+              <button type="submit" className="btn btn-primary">
+                Submit
+              </button>
+            </form>
+            <div className="submitted-interests">
+              <h4>Your Interests:</h4>
+              <p>{submittedInterests}</p>
+            </div>
           </div>
-          
-          {/* Hidden file input for document upload */}
-          <input 
-            type="file" 
-            ref={fileInputRef} 
-            style={{ display: 'none' }} // Hide the file input
-            onChange={handleFileChange} // Handle file selection
-          />
+
+          {/* Upload Document Section */}
+          <div className="documents-section">
+            <h3>Upload and View Documents</h3>
+            <button onClick={handleDocumentClick} className="btn btn-primary">Upload Document</button>
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
+            <ul className="document-list">
+              {uploadedDocuments.map((doc, index) => (
+                <li key={index} onClick={() => handleViewDocument(doc.file)} className="document-item">
+                  {doc.name}
+                </li>
+              ))}
+            </ul>
+            {uploadedDocuments.length === 0 && <p>No documents uploaded yet.</p>}
+          </div>
+
+          {/* Contact Information Section */}
+          <div className="contact-info">
+            <h3>Contact Information</h3>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <input
+                type="email"
+                value={contactInfo.email}
+                onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })}
+                placeholder="Email"
+                className="contact-input"
+                required
+              />
+              <input
+                type="tel"
+                value={contactInfo.phone}
+                onChange={(e) => setContactInfo({ ...contactInfo, phone: e.target.value })}
+                placeholder="Phone"
+                className="contact-input"
+                required
+              />
+              <input
+                type="text"
+                value={contactInfo.linkedin}
+                onChange={(e) => setContactInfo({ ...contactInfo, linkedin: e.target.value })}
+                placeholder="LinkedIn URL"
+                className="contact-input"
+                required
+              />
+              <button type="submit" className="btn btn-primary">
+                Save Contact Info
+              </button>
+            </form>
+            <div className="saved-contact-info">
+              <h3>Your Contact Information:</h3>
+              <p>Email: {contactInfo.email || "Not provided"}</p>
+              <p>Phone: {contactInfo.phone || "Not provided"}</p>
+              <p>LinkedIn: {contactInfo.linkedin || "Not provided"}</p>
+            </div>
+          </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
 
-export default ProfilePage; // Export the ProfilePage component
+export default ProfilePage;

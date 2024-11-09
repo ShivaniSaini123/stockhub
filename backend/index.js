@@ -34,11 +34,18 @@ const app = express();
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Configure CORS to allow requests from the frontend
+// app.use(cors({
+//   origin: "http://localhost:3000", // Adjust according to your frontend origin
+//   methods: "GET,POST,PUT,DELETE",
+//   credentials: true
+// }));
+
 app.use(cors({
-  origin: "http://localhost:3000", // Adjust according to your frontend origin
+  origin: ["http://localhost:3000", "http://localhost:3001"], // Allow both origins
   methods: "GET,POST,PUT,DELETE",
   credentials: true
 }));
+
 const store = MongoStore.create({
   mongoUrl: process.env.MONGO_URL,
   crypto: {
