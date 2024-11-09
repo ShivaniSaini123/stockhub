@@ -54,7 +54,7 @@ function Navbar() {
 
             <ul className="navbar-nav d-flex align-items-center" style={{ gap: "1rem", marginBottom: 0 }}>
                 <li className="nav-item">
-                    <Link className="nav-link active text-white" to="#">
+                    <Link className="nav-link active text-white" to="/chat">
                         Chats
                     </Link>
                 </li>
@@ -120,11 +120,7 @@ function Navbar() {
                                             Profile
                                         </Link>
                                     </li>
-                                    <li>
-                                        <Link className="dropdown-item" to="/chat">
-                                            Chat
-                                        </Link>
-                                    </li>
+                                    
                                 </ul>
                             )}
                         </li>

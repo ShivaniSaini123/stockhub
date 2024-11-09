@@ -17,6 +17,7 @@ import Login from './landing_page/views/users/login.js';
 import Signup from './landing_page/views/users/signup.js';
 import Logout from './landing_page/views/users/logout.js';
 import News from './landing_page/News.js'
+import Chat from './landing_page/Chat.js'
 // import App from './App'; // Import your App component if it's defined separately
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -35,6 +36,7 @@ root.render(
         <AuthProvider>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/chat" element={<Chat />} />
             <Route path="/news" element={<News />} />
             <Route path="/dashboard/*" element={<Main />} />
             <Route path="/profile" element={<ProfilePage />} />

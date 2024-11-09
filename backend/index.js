@@ -16,6 +16,8 @@ const flash = require("connect-flash");
 const userRouter = require("./routes/user.js");
 const path = require('path');
 const MongoStore = require('connect-mongo');
+const http = require("http");
+
 // Import Mongoose models
 const { HoldingsModel } = require("./model/HoldingsModel");
 const { PositionsModel } = require("./model/PositionsModel");
@@ -33,6 +35,7 @@ const uri = process.env.MONGO_URL;
 const app = express();
 app.use(express.static(path.join(__dirname, '../frontend')));
 
+
 // Configure CORS to allow requests from the frontend
 // app.use(cors({
 //   origin: "http://localhost:3000", // Adjust according to your frontend origin
@@ -45,6 +48,7 @@ app.use(cors({
   methods: "GET,POST,PUT,DELETE",
   credentials: true
 }));
+
 
 const store = MongoStore.create({
   mongoUrl: process.env.MONGO_URL,
@@ -114,6 +118,7 @@ app.get("/hello", (req, res) => {
 });
 
 
+
 app.get("/demouser", async (req, res) => {
   let fuser = new User({
     email: "suna@gmail.ocm",
@@ -122,6 +127,7 @@ app.get("/demouser", async (req, res) => {
   let regUser = await User.register(fuser, "helloworld");
   res.send(regUser);
 });
+
 
 // Endpoint to get all holdings
 app.get("/allHoldings", async (req, res) => {
